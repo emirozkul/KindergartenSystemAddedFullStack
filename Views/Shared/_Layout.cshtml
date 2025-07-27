@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @(ViewBag.CurrentKindergarten?.Name ?? "Kindergarten")</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <link rel="website icon" type="png" href="@(ViewBag.Settings?.LogoPath ?? "/Content/images/logo2.png")">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <img src="@(ViewBag.Settings?.LogoPath ?? "/Content/images/main-logo.png")"
+                     alt="@ViewBag.CurrentKindergarten?.Name Logo" class="navbar-logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">Anasayfa</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Kurumumuz <i class="fas fa-chevron-down ms-1"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("About", "Home")">Hakkımızda</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Events", "Home")">Etkinliklerimiz</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Staff", "Home")">Kadromuz</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Announcements", "Home")">Duyurular</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Gallery", "Home")">Galerimiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")">İletişim</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <footer class="footer">
+        @if (!string.IsNullOrEmpty(ViewBag.Settings?.GoogleMapEmbed))
+        {
+            <section id="map-section" class="section pt-0 pb-5">
+                <div class="container map-container-wrapper">
+                    <h2 class="section-title" data-aos="fade-up">Konumumuz</h2>
+                    <div class="map-container" data-aos="fade-up" data-aos-delay="100">
+                        @Html.Raw(ViewBag.Settings.GoogleMapEmbed)
+                    </div>
+                </div>
+            </section>
+        }
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center text-lg-start mb-4 mb-lg-0">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="@(ViewBag.Settings?.FooterLogoPath ?? ViewBag.Settings?.LogoPath ?? "/Content/images/main-logo.png")"
+                             alt="@ViewBag.CurrentKindergarten?.Name Logo" class="footer-logo mb-3">
+                    </a>
+                    <p class="footer-description">@(ViewBag.Settings?.FooterSlogan ?? "Çocuklarınızın geleceği için en iyi başlangıç noktası.")</p>
+                    <div class="social-links mt-3">
+                        @if (!string.IsNullOrEmpty(ViewBag.Settings?.FacebookUrl))
+                        {
+                            <a href="@ViewBag.Settings.FacebookUrl" class="social-icon" target="_blank">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.Settings?.TwitterUrl))
+                        {
+                            <a href="@ViewBag.Settings.TwitterUrl" class="social-icon" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.Settings?.InstagramUrl))
+                        {
+                            <a href="@ViewBag.Settings.InstagramUrl" class="social-icon" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center text-lg-start mb-4 mb-lg-0">
+                    <h5 class="footer-title">Hızlı Linkler</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="@Url.Action("Index", "Home")">Anasayfa</a></li>
+                        <li><a href="@Url.Action("About", "Home")">Hakkımızda</a></li>
+                        <li><a href="@Url.Action("Announcements", "Home")">Duyurular</a></li>
+                        <li><a href="@Url.Action("Gallery", "Home")">Galerimiz</a></li>
+                        <li><a href="@Url.Action("Contact", "Home")">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center text-lg-start mb-4 mb-md-0">
+                    <h5 class="footer-title">Kurumumuz</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="@Url.Action("Events", "Home")">Etkinliklerimiz</a></li>
+                        <li><a href="@Url.Action("Staff", "Home")">Kadromuz</a></li>
+                        <li><a href="@Url.Action("About", "Home")">Misyon & Vizyon</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center text-lg-start">
+                    <h5 class="footer-title">İletişim</h5>
+                    <ul class="list-unstyled footer-contact">
+                        @if (!string.IsNullOrEmpty(ViewBag.Settings?.Address))
+                        {
+                            <li><i class="fas fa-map-marker-alt"></i> @ViewBag.Settings.Address</li>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.Settings?.Phone))
+                        {
+                            <li><i class="fas fa-phone"></i> <a href="tel:@ViewBag.Settings.Phone">@ViewBag.Settings.Phone</a></li>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.Settings?.Email))
+                        {
+                            <li><i class="fas fa-envelope"></i> <a href="mailto:@ViewBag.Settings.Email">@ViewBag.Settings.Email</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 text-center pt-4 mt-4 border-top-footer">
+                    <p class="mb-0">© @DateTime.Now.Year @ViewBag.CurrentKindergarten?.Name - Tüm hakları saklıdır.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="~/Content/js/script.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

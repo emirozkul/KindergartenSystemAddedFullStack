@@ -1,0 +1,175 @@
+﻿@using KindergartenSystem.Models
+@using KindergartenSystem.ViewModels
+@using System.Linq
+@model KindergartenSystem.ViewModels.HomeViewModel
+@model KindergartenSystem.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Anasayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="home" class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content" data-aos="fade-right">
+                    <h1 class="hero-title">@(Model.Settings?.Slogan ?? "Çocuklarınızın Geleceği Burada Başlıyor")</h1>
+                    <p class="hero-subtitle">@(Model.Settings?.SubSlogan ?? "Güvenli, eğlenceli ve öğretici ortamımızda çocuklarınızın potansiyelini keşfedin.")</p>
+                    <a href="@Url.Action("Contact", "Home")" class="btn btn-custom">
+                        <i class="fas fa-phone me-2"></i>Hemen İletişime Geçin
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="mission-vision" class="section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">
+            @(Model.MissionVision?.MissionTitle ?? "Misyonumuz") & @(Model.MissionVision?.VisionTitle ?? "Vizyonumuz")
+        </h2>
+        <div class="row g-4">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="mission-vision-card mission">
+                    <i class="fas fa-rocket mv-icon"></i>
+                    <h3 class="mv-title">@(Model.MissionVision?.MissionTitle ?? "Misyonumuz")</h3>
+                    <p class="mv-text">
+                        @(Model.MissionVision?.MissionText ?? "Çocuklara öğrenmeyi sevdirerek, onları topluma faydalı bireyler olarak yetiştirmek. Her çocuğun bireysel gelişimini destekleyerek, yaratıcılık, özgüven ve sosyal becerilerin gelişmesini sağlamak.")
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="mission-vision-card vision">
+                    <i class="fas fa-eye mv-icon"></i>
+                    <h3 class="mv-title">@(Model.MissionVision?.VisionTitle ?? "Vizyonumuz")</h3>
+                    <p class="mv-text">
+                        @(Model.MissionVision?.VisionText ?? "Yenilikçi, sevgi dolu ve güvenli bir eğitim ortamı sunarak, çocukların potansiyelini en iyi şekilde ortaya çıkarmak. Türkiye'nin en kaliteli ve güvenilir kreş zinciri olmak.")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Temel Eğitimlerimiz</h2>
+    </div>
+
+    <div class="swiper features-slider">
+        <div class="swiper-wrapper">
+            @if (Model.CorePrograms != null && Model.CorePrograms.Any())
+            {
+                foreach (var program in Model.CorePrograms)
+                {
+                    <div class="swiper-slide">
+                        <div class="feature-card">
+                            <i class="@(program.Icon ?? "fas fa-graduation-cap") feature-icon"></i>
+                            <h3 class="feature-title">@program.Title</h3>
+                            <p class="feature-text">@program.Description</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <!-- Default programs if none are configured -->
+                <div class="swiper-slide">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3 class="feature-title">Güvenli Ortam</h3>
+                        <p class="feature-text">7/24 güvenlik kamera sistemi, eğitimli güvenlik personeli ve çocuk güvenliği sertifikalı ekipmanlar.</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <h3 class="feature-title">Uzman Eğitim Kadrosu</h3>
+                        <p class="feature-text">Okul öncesi eğitimi alanında uzman, deneyimli ve sevgi dolu öğretmenlerimiz.</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="feature-card">
+                        <i class="fas fa-utensils feature-icon"></i>
+                        <h3 class="feature-title">Sağlıklı Beslenme</h3>
+                        <p class="feature-text">Diyetisyen kontrolünde hazırlanan, organik ve besleyici yemekler.</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="feature-card">
+                        <i class="fas fa-gamepad feature-icon"></i>
+                        <h3 class="feature-title">Eğlenceli Aktiviteler</h3>
+                        <p class="feature-text">Yaş gruplarına uygun oyun alanları, sanat atölyeleri ve müzik dersleri.</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="feature-card">
+                        <i class="fas fa-bus feature-icon"></i>
+                        <h3 class="feature-title">Servis Hizmeti</h3>
+                        <p class="feature-text">Güvenli ve konforlu servis araçlarımızla kapıdan kapıya taşıma hizmeti.</p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+
+<section id="parent-reviews" class="section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Veli Yorumları</h2>
+        <div class="swiper parent-reviews-slider">
+            <div class="swiper-wrapper">
+                @if (Model.Testimonials != null && Model.Testimonials.Any())
+                {
+                    foreach (var testimonial in Model.Testimonials)
+                    {
+                        <div class="swiper-slide">
+                            <div class="review-card">
+                                <img src="@(testimonial.ParentPhoto ?? "https://ui-avatars.com/api/?name=" + Uri.EscapeDataString(testimonial.ParentName) + "&background=FF6B6B&color=fff")"
+                                     alt="@testimonial.ParentName" class="parent-image">
+                                <h4 class="parent-name">@testimonial.ParentName</h4>
+                                <div class="rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span class="star @(i <= testimonial.Rating ? "" : "text-muted")">★</span>
+                                    }
+                                </div>
+                                <p class="review-text">"@testimonial.Comment"</p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <!-- Default testimonials if none are configured -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <img src="https://ui-avatars.com/api/?name=Ali+Çelik&background=FF6B6B&color=fff" alt="Ali Çelik" class="parent-image">
+                            <h4 class="parent-name">Ali Çelik</h4>
+                            <div class="rating">
+                                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                            </div>
+                            <p class="review-text">"Çocuğum bu okula başladığından beri sosyal becerilerinde inanılmaz gelişme gözlemliyoruz. Öğretmenlerin ilgisi ve sevgisi için teşekkürler."</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <img src="https://ui-avatars.com/api/?name=Zeynep+Arslan&background=4ECDC4&color=fff" alt="Zeynep Arslan" class="parent-image">
+                            <h4 class="parent-name">Zeynep Arslan</h4>
+                            <div class="rating">
+                                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                            </div>
+                            <p class="review-text">"Eğitim programı ve aktiviteler çok zengin. Çocuğum her gün yeni bir şeyler öğrenerek eve geliyor. @ViewBag.CurrentKindergarten?.Name'yi herkese tavsiye ederim."</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>

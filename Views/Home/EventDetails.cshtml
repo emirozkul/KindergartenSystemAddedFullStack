@@ -1,0 +1,114 @@
+﻿@using KindergartenSystem.Models
+@using System.Globalization
+@model KindergartenSystem.Models.Event
+@model KindergartenSystem.Models.Event
+@{
+    ViewBag.Title = Model?.Title ?? "Etkinlik Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="page-section" style="padding-top: 120px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                @if (Model != null)
+                {
+                    <div class="event-detail-header text-center mb-5">
+                        <h1 class="display-4 fw-bold text-primary" data-aos="fade-up">@Model.Title</h1>
+                        @if (!string.IsNullOrEmpty(Model.ShortDescription))
+                        {
+                            <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">@Model.ShortDescription</p>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <div class="event-image mb-4" data-aos="zoom-in">
+                            <img src="@Model.ImagePath" class="img-fluid rounded shadow" alt="@Model.Title">
+                        </div>
+                    }
+
+                    <div class="event-info-box bg-light p-4 rounded mb-4 d-flex justify-content-around text-center" data-aos="fade-up">
+                        <div>
+                            <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i><br>
+                            <strong>@Model.EventDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</strong>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.EventTime))
+                        {
+                            <div>
+                                <i class="fas fa-clock fa-2x text-primary mb-2"></i><br>
+                                <strong>@Model.EventTime</strong>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Location))
+                        {
+                            <div>
+                                <i class="fas fa-map-marker-alt fa-2x text-primary mb-2"></i><br>
+                                <strong>@Model.Location</strong>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="event-content" data-aos="fade-up">
+                        @if (!string.IsNullOrEmpty(Model.DetailedDescription))
+                        {
+                            <h3 class="mb-3">Etkinlik Açıklaması</h3>
+                            <div class="mb-4">
+                                @Html.Raw(Model.DetailedDescription.Replace("\n", "<br/>"))
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.EventSchedule))
+                        {
+                            <h4 class="mt-4 mb-3">Etkinlik Programı:</h4>
+                            <div class="event-schedule">
+                                @Html.Raw(Model.EventSchedule.Replace("\n", "<br/>"))
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <!-- Default event detail if no specific event -->
+                    <div class="event-detail-header text-center mb-5">
+                        <h1 class="display-4 fw-bold text-primary" data-aos="fade-up">Bilim Şenliği ve Deney Günü</h1>
+                        <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">Minik mucitler ile bilimin eğlenceli dünyasına yolculuk!</p>
+                    </div>
+
+                    <div class="event-image mb-4" data-aos="zoom-in">
+                        <img src="https://images.pexels.com/photos/3931551/pexels-photo-3931551.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="img-fluid rounded shadow" alt="Etkinlik Detay Resmi">
+                    </div>
+
+                    <div class="event-info-box bg-light p-4 rounded mb-4 d-flex justify-content-around text-center" data-aos="fade-up">
+                        <div><i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i><br><strong>15 Ağustos 2025</strong></div>
+                        <div><i class="fas fa-clock fa-2x text-primary mb-2"></i><br><strong>14:00 - 16:00</strong></div>
+                        <div><i class="fas fa-map-marker-alt fa-2x text-primary mb-2"></i><br><strong>Okul Bahçesi</strong></div>
+                    </div>
+
+                    <div class="event-content" data-aos="fade-up">
+                        <h3 class="mb-3">Etkinlik Açıklaması</h3>
+                        <p>Bu özel günde, çocuklarımızla birlikte heyecan verici ve tamamen güvenli deneyler yaparak temel bilimsel kavramları öğreneceğiz. Volkan patlamasından renklerin dansına kadar birçok farklı deneyle merak duygularını tetikleyecek ve öğrenmeyi bir oyuna dönüştüreceğiz.</p>
+                        <p>Etkinliğimiz, çocuklarımızın problem çözme, analitik düşünme ve takım çalışması becerilerini geliştirmeyi amaçlamaktadır. Tüm materyaller okulumuz tarafından sağlanacak olup, etkinlik uzman eğitmenlerimizin gözetiminde gerçekleştirilecektir.</p>
+
+                        <h4 class="mt-4 mb-3">Etkinlik Programı:</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">14:00 - Karşılama ve Tanışma</li>
+                            <li class="list-group-item">14:15 - "Balon Şişirme" deneyi</li>
+                            <li class="list-group-item">14:45 - "Köpüren Volkan" deneyi</li>
+                            <li class="list-group-item">15:15 - Ara ve Meyve Suyu İkramı</li>
+                            <li class="list-group-item">15:30 - "Yüzen Cisimler" deneyi ve serbest oyun</li>
+                            <li class="list-group-item">16:00 - Kapanış ve Katılım Belgelerinin Dağıtımı</li>
+                        </ul>
+                    </div>
+                }
+
+                <div class="text-center mt-5" data-aos="fade-up">
+                    <a href="@Url.Action("Events", "Home")" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Tüm Etkinliklere Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

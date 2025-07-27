@@ -1,0 +1,166 @@
+﻿@using KindergartenSystem.Models
+@using System.Linq
+@using System.Globalization
+@model List<KindergartenSystem.Models.Event>
+@model List<KindergartenSystem.Models.Event>
+@{
+    ViewBag.Title = "Etkinliklerimiz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero-section" style="padding: 140px 0 80px;">
+    <div class="container text-center">
+        <h1 class="hero-title" data-aos="fade-up">Etkinliklerimiz</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Çocuklarımızla birlikte eğlenerek öğrendiğimiz anlar.</p>
+    </div>
+</section>
+
+<section id="events-list" class="section">
+    <div class="container">
+        <div class="row g-4">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var eventItem in Model)
+                {
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                        <div class="card h-100 shadow-sm event-card">
+                            <img src="@(eventItem.ImagePath ?? "https://images.pexels.com/photos/3931551/pexels-photo-3931551.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")"
+                                 class="card-img-top" alt="@eventItem.Title">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@eventItem.Title</h5>
+                                <p class="card-text text-muted">@eventItem.ShortDescription</p>
+                                <div class="mt-auto">
+                                    <p class="card-text mb-2">
+                                        <i class="fas fa-calendar-alt text-primary me-2"></i>
+                                        <strong>Tarih:</strong> @eventItem.EventDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+                                    </p>
+                                    @if (!string.IsNullOrEmpty(eventItem.EventTime))
+                                    {
+                                        <p class="card-text mb-2">
+                                            <i class="fas fa-clock text-primary me-2"></i>
+                                            <strong>Saat:</strong> @eventItem.EventTime
+                                        </p>
+                                    }
+                                    @if (!string.IsNullOrEmpty(eventItem.Location))
+                                    {
+                                        <p class="card-text mb-2">
+                                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                            <strong>Yer:</strong> @eventItem.Location
+                                        </p>
+                                    }
+                                    <a href="@Url.Action("EventDetail", "Home", new { id = eventItem.Id })"
+                                       class="btn btn-primary w-100">Detaylı Gör</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <!-- Default events if none are configured -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="card h-100 shadow-sm event-card">
+                        <img src="https://images.pexels.com/photos/3931551/pexels-photo-3931551.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="card-img-top" alt="Bilim Şenliği">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Bilim Şenliği ve Deney Günü</h5>
+                            <p class="card-text text-muted">Minik mucitler iş başında! Eğlenceli deneylerle bilimin gizemli dünyasını keşfediyoruz.</p>
+                            <div class="mt-auto">
+                                <p class="card-text mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i><strong>Tarih:</strong> 15 Ağustos 2025</p>
+                                <a href="#" class="btn btn-primary w-100">Detaylı Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 shadow-sm event-card">
+                        <img src="https://images.pexels.com/photos/764681/pexels-photo-764681.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="card-img-top" alt="Sanat Atölyesi">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Rengarenk Sanat Atölyesi</h5>
+                            <p class="card-text text-muted">Çocuklarımızın hayal güçlerini tuvallere ve kağıtlara yansıttığı yaratıcılık dolu bir gün.</p>
+                            <div class="mt-auto">
+                                <p class="card-text mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i><strong>Tarih:</strong> 22 Ağustos 2025</p>
+                                <a href="#" class="btn btn-primary w-100">Detaylı Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 shadow-sm event-card">
+                        <img src="https://images.pexels.com/photos/159775/library-la-trobe-university-students-study-159775.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="card-img-top" alt="Masal Saati">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Masal Saati ve Kitap Okuma</h5>
+                            <p class="card-text text-muted">En sevilen masalları dinleyeceğimiz ve kitapların büyülü dünyasına yolculuk yapacağımız bir etkinlik.</p>
+                            <div class="mt-auto">
+                                <p class="card-text mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i><strong>Tarih:</strong> 29 Ağustos 2025</p>
+                                <a href="#" class="btn btn-primary w-100">Detaylı Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100 shadow-sm event-card">
+                        <img src="https://images.pexels.com/photos/226407/pexels-photo-226407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="card-img-top" alt="Müzik ve Ritim">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Müzik ve Ritim Çalışması</h5>
+                            <p class="card-text text-muted">Orff aletleri ile hem eğleniyor hem de ritim duygumuzu geliştiriyoruz.</p>
+                            <div class="mt-auto">
+                                <p class="card-text mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i><strong>Tarih:</strong> 5 Eylül 2025</p>
+                                <a href="#" class="btn btn-primary w-100">Detaylı Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card h-100 shadow-sm event-card">
+                        <img src="https://images.pexels.com/photos/1154039/pexels-photo-1154039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="card-img-top" alt="Açık Hava Oyunları">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Açık Hava Oyun Günü</h5>
+                            <p class="card-text text-muted">Okulumuzun bahçesinde geleneksel çocuk oyunları ve yarışmalarla enerji atıyoruz.</p>
+                            <div class="mt-auto">
+                                <p class="card-text mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i><strong>Tarih:</strong> 12 Eylül 2025</p>
+                                <a href="#" class="btn btn-primary w-100">Detaylı Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="card h-100 shadow-sm event-card">
+                        <img src="https://images.pexels.com/photos/1001914/pexels-photo-1001914.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                             class="card-img-top" alt="Doğa Keşfi">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Doğa Keşfi ve Fidan Dikimi</h5>
+                            <p class="card-text text-muted">Doğayı yakından tanıyor, kendi fidanlarımızı dikerek geleceğe bir nefes bırakıyoruz.</p>
+                            <div class="mt-auto">
+                                <p class="card-text mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i><strong>Tarih:</strong> 19 Eylül 2025</p>
+                                <a href="#" class="btn btn-primary w-100">Detaylı Gör</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model != null && !Model.Any())
+        {
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Henüz etkinlik eklenmemiş. Admin panelinden etkinlik ekleyebilirsiniz.
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

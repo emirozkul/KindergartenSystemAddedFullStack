@@ -1,0 +1,139 @@
+﻿@using KindergartenSystem.Models
+@using KindergartenSystem.ViewModels
+@using System.Web.Mvc
+@model KindergartenSystem.ViewModels.ContactFormViewModel
+@model KindergartenSystem.ViewModels.ContactFormViewModel
+@{
+    ViewBag.Title = "İletişim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero-section" style="padding: 140px 0 80px;">
+    <div class="container text-center">
+        <h1 class="hero-title" data-aos="fade-up">Bize Ulaşın</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Sorularınız, görüşleriniz veya kayıt işlemleri için bizimle iletişime geçmekten çekinmeyin.</p>
+    </div>
+</section>
+
+<section id="contact-form-section" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="section-title mt-0 mb-5" data-aos="fade-up">İletişim Formu</h2>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" data-aos="fade-up">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" data-aos="fade-up">
+                        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <div class="contact-form-container p-4 p-md-5 border rounded shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                    @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "row g-3 needs-validation", novalidate = "novalidate" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.FirstName, "Adınız", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "invalid-feedback" })
+                            <div class="invalid-feedback">Lütfen adınızı giriniz.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.LastName, "Soyadınız", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "invalid-feedback" })
+                            <div class="invalid-feedback">Lütfen soyadınızı giriniz.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Email, "E-posta Adresiniz", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "invalid-feedback" })
+                            <div class="invalid-feedback">Lütfen geçerli bir e-posta adresi giriniz.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Phone, "Telefon Numaranız", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", type = "tel", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "invalid-feedback" })
+                            <div class="invalid-feedback">Lütfen telefon numaranızı giriniz.</div>
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(m => m.Subject, "Konu Başlığı", new { @class = "form-label" })
+                            @Html.DropDownListFor(m => m.Subject, new SelectList(new[] {
+                                new { Value = "kayit", Text = "Kayıt Bilgisi" },
+                                new { Value = "egitim", Text = "Eğitim Programları" },
+                                new { Value = "oneri", Text = "Görüş ve Öneri" },
+                                new { Value = "diger", Text = "Diğer" }
+                            }, "Value", "Text"), "Seçiniz...", new { @class = "form-select", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "invalid-feedback" })
+                            <div class="invalid-feedback">Lütfen bir konu seçiniz.</div>
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(m => m.Message, "Mesajınız", new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5, required = "required" })
+                            @Html.ValidationMessageFor(m => m.Message, "", new { @class = "invalid-feedback" })
+                            <div class="invalid-feedback">Lütfen mesajınızı yazınız.</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="fileUpload" class="form-label">Dosya Yükle (İsteğe Bağlı)</label>
+                            <input class="form-control" type="file" id="fileUpload" name="file" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                            <div class="form-text">Desteklenen formatlar: JPG, PNG, PDF, DOC, DOCX (Max: 5MB)</div>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100 py-2">
+                                <i class="fas fa-paper-plane me-2"></i>Mesajı Gönder
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts {
+    <script>
+        // Form validation
+        (function () {
+            'use strict';
+
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+
+            // Auto-hide alerts after 5 seconds
+            setTimeout(function () {
+                var alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function (alert) {
+                    if (alert.classList.contains('show')) {
+                        var bsAlert = new bootstrap.Alert(alert);
+                        bsAlert.close();
+                    }
+                });
+            }, 5000);
+        })();
+    </script>
+}

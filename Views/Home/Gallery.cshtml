@@ -1,0 +1,117 @@
+﻿@using KindergartenSystem.Models
+@using System.Linq
+@model List<KindergartenSystem.Models.Gallery>
+@model List<KindergartenSystem.Models.Gallery>
+@{
+    ViewBag.Title = "Galerimiz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero-section" style="padding: 140px 0 80px;">
+    <div class="container text-center">
+        <h1 class="hero-title" data-aos="fade-up">Galerimiz</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Eğlenceli anlarımızı ve etkinliklerimizi keşfedin.</p>
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="container">
+        <div class="row g-4">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var image in Model)
+                {
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                        <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="@image.ImagePath">
+                            <img src="@image.ImagePath" class="img-fluid" alt="@(image.Title ?? "Galeri Resmi")">
+                            <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <!-- Default gallery images if none are uploaded -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="/Content/images/gallery/1.jpg">
+                        <img src="/Content/images/gallery/1.jpg" class="img-fluid" alt="Galeri Resmi 1">
+                        <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="/Content/images/gallery/2.jpg">
+                        <img src="/Content/images/gallery/2.jpg" class="img-fluid" alt="Galeri Resmi 2">
+                        <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="/Content/images/gallery/3.jpg">
+                        <img src="/Content/images/gallery/3.jpg" class="img-fluid" alt="Galeri Resmi 3">
+                        <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="/Content/images/gallery/4.jpg">
+                        <img src="/Content/images/gallery/4.jpg" class="img-fluid" alt="Galeri Resmi 4">
+                        <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="/Content/images/gallery/5.jpg">
+                        <img src="/Content/images/gallery/5.jpg" class="img-fluid" alt="Galeri Resmi 5">
+                        <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <a href="#" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-img-src="/Content/images/gallery/6.jpg">
+                        <img src="/Content/images/gallery/6.jpg" class="img-fluid" alt="Galeri Resmi 6">
+                        <div class="overlay"><i class="fas fa-search-plus"></i></div>
+                    </a>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Henüz galeri fotoğrafı eklenmemiş. Admin panelinden fotoğraf ekleyebilirsiniz.
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryModalLabel">Galeri Resmi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" class="img-fluid" id="modalImage" alt="Modal Resmi">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        // Gallery modal functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const galleryModal = document.getElementById('galleryModal');
+            if (galleryModal) {
+                galleryModal.addEventListener('show.bs.modal', function (event) {
+                    const triggerLink = event.relatedTarget;
+                    const imageSrc = triggerLink.getAttribute('data-img-src');
+                    const modalImage = document.getElementById('modalImage');
+                    if (modalImage) modalImage.src = imageSrc;
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,89 @@
+﻿@using KindergartenSystem.Models
+@using System.Linq
+@using System.Globalization
+@model List<KindergartenSystem.Models.Announcement>
+@model List<KindergartenSystem.Models.Announcement>
+@{
+    ViewBag.Title = "Duyurular";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero-section" style="padding: 140px 0 80px;">
+    <div class="container text-center">
+        <h1 class="hero-title" data-aos="fade-up">Duyurular</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Okulumuzdaki en son haberler ve önemli bilgilendirmeler.</p>
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var announcement in Model.Select((a, index) => new { Announcement = a, Index = index }))
+                    {
+                        <div class="announcement-card mb-4" data-aos="fade-up" data-aos-delay="@((announcement.Index * 100))">
+                            <h3>@announcement.Announcement.Title</h3>
+                            <p class="text-muted">
+                                <i class="far fa-calendar-alt me-2"></i>
+                                @announcement.Announcement.AnnouncementDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+                            </p>
+                            <div class="announcement-description">
+                                @if (!string.IsNullOrEmpty(announcement.Announcement.Description))
+                                {
+                                    if (announcement.Announcement.Description.Length > 200)
+                                    {
+                                        <p>@announcement.Announcement.Description.Substring(0, 200)...</p>
+                                        <a href="@Url.Action("AnnouncementDetail", "Home", new { id = announcement.Announcement.Id })"
+                                           class="btn btn-sm btn-outline-primary">Devamını Oku</a>
+                                    }
+                                    else
+                                    {
+                                        <p>@announcement.Announcement.Description</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <!-- Default announcements if none are configured -->
+                    <div class="announcement-card mb-4" data-aos="fade-up">
+                        <h3>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Kutlaması</h3>
+                        <p class="text-muted"><i class="far fa-calendar-alt me-2"></i>18 Nisan 2025</p>
+                        <p>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı'nı okulumuzda büyük bir coşku ve birbirinden güzel gösterilerle kutladık. Detaylar için tıklayınız.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
+                    </div>
+
+                    <div class="announcement-card mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <h3>Yaz Okulu Kayıtları Başladı!</h3>
+                        <p class="text-muted"><i class="far fa-calendar-alt me-2"></i>10 Mart 2025</p>
+                        <p>Yaz okulu programımız bu yıl da dopdolu içeriklerle geri döndü! Yüzme, satranç, İngilizce ve daha birçok aktivite için erken kayıt fırsatlarını kaçırmayın.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
+                    </div>
+
+                    <div class="announcement-card mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <h3>Veli Toplantısı Duyurusu</h3>
+                        <p class="text-muted"><i class="far fa-calendar-alt me-2"></i>01 Mart 2025</p>
+                        <p>Değerli velilerimiz, öğrencilerimizin gelişim süreçlerini ve gelecek dönem planlamamızı görüşmek üzere 15 Mart Cumartesi günü saat 10:00'da okulumuzda olacağız.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
+                    </div>
+                }
+
+                @if (Model != null && !Model.Any())
+                {
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Henüz duyuru eklenmemiş. Admin panelinden duyuru ekleyebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

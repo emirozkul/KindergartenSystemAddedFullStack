@@ -1,0 +1,75 @@
+﻿@using KindergartenSystem.Models
+@using System.Globalization
+@model KindergartenSystem.Models.Announcement
+@model KindergartenSystem.Models.Announcement
+@{
+    ViewBag.Title = Model?.Title ?? "Duyuru Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="page-section" style="padding-top: 120px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                @if (Model != null)
+                {
+                    <div class="announcement-detail-header mb-4">
+                        <h1 class="display-5 fw-bold text-primary" data-aos="fade-up">@Model.Title</h1>
+                        <p class="text-muted" data-aos="fade-up" data-aos-delay="100">
+                            <i class="far fa-calendar-alt me-2"></i>
+                            @Model.AnnouncementDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+                        </p>
+                    </div>
+
+                    <div class="announcement-content" data-aos="fade-up" data-aos-delay="200">
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            <div class="announcement-text">
+                                @Html.Raw(Model.Description.Replace("\n", "<br/>"))
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Bu duyuru için detay açıklaması bulunmamaktadır.</p>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <!-- Default announcement detail if no specific announcement -->
+                    <div class="announcement-detail-header mb-4">
+                        <h1 class="display-5 fw-bold text-primary" data-aos="fade-up">Yaz Okulu Kayıtları Başladı!</h1>
+                        <p class="text-muted" data-aos="fade-up" data-aos-delay="100">
+                            <i class="far fa-calendar-alt me-2"></i>10 Mart 2025
+                        </p>
+                    </div>
+
+                    <div class="announcement-content" data-aos="fade-up" data-aos-delay="200">
+                        <p class="lead">Bu yaz çocuklarımız için hem eğlenceli hem de öğretici bir program hazırladık! @ViewBag.CurrentKindergarten?.Name Yaz Okulu, dopdolu içeriğiyle çocuklarımıza unutulmaz bir deneyim yaşatacak.</p>
+
+                        <p>Yaz okulu programımız, çocuklarımızın sosyal, fiziksel ve zihinsel gelişimlerini destekleyecek şekilde özenle planlanmıştır. Alanında uzman eğitmenlerimiz eşliğinde, güvenli ve sevgi dolu bir ortamda yeni arkadaşlıklar kuracak, yeni beceriler edinecekler.</p>
+
+                        <h4 class="mt-4 mb-3">Yaz Okulu Programında Neler Var?</h4>
+                        <ul>
+                            <li>Yüzme Dersleri</li>
+                            <li>İngilizce Atölyeleri</li>
+                            <li>Satranç Turnuvaları</li>
+                            <li>Müzik ve Ritim Çalışmaları</li>
+                            <li>Seramik ve Resim Atölyeleri</li>
+                            <li>Doğa Gezileri ve Keşif Aktiviteleri</li>
+                            <li>Eğlenceli Bilim Deneyleri</li>
+                        </ul>
+
+                        <p>Kontenjanlarımız sınırlıdır. Erken kayıt indirimlerinden yararlanmak ve çocuğunuzun yerini ayırtmak için acele edin. Detaylı bilgi ve kayıt için bizimle iletişime geçebilirsiniz.</p>
+                    </div>
+                }
+
+                <div class="text-center mt-5" data-aos="fade-up">
+                    <a href="@Url.Action("Announcements", "Home")" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Tüm Duyurulara Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

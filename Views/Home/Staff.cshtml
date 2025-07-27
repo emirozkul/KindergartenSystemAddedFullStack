@@ -1,0 +1,134 @@
+﻿@using KindergartenSystem.Models
+@using System.Linq
+@model List<KindergartenSystem.Models.Staff>
+@model List<KindergartenSystem.Models.Staff>
+@{
+    ViewBag.Title = "Kadromuz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero-section" style="padding: 140px 0 80px;">
+    <div class="container text-center">
+        <h1 class="hero-title" data-aos="fade-up">Eğitim Kadromuz</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Deneyimli ve sevgi dolu öğretmenlerimizle tanışın.</p>
+    </div>
+</section>
+
+<section id="kadromuz" class="section">
+    <div class="container">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var staff in Model.Select((s, index) => new { Staff = s, Index = index }))
+            {
+                <div class="teacher-card row align-items-center mb-5 pb-4 border-bottom @(staff.Index % 2 == 1 ? "flex-lg-row-reverse" : "")" data-aos="fade-up" data-aos-delay="@((staff.Index * 100))">
+                    <div class="col-lg-4 text-center">
+                        <img src="@(staff.Staff.PhotoPath ?? "https://ui-avatars.com/api/?name=" + Uri.EscapeDataString(staff.Staff.FullName) + "&background=FF6B6B&color=fff&size=200")"
+                             alt="@staff.Staff.FullName"
+                             class="img-fluid rounded-circle teacher-img">
+                    </div>
+                    <div class="col-lg-8 mt-4 mt-lg-0 @(staff.Index % 2 == 1 ? "text-lg-end" : "")">
+                        <h3 class="teacher-name">@staff.Staff.FullName</h3>
+                        @if (!string.IsNullOrEmpty(staff.Staff.Title))
+                        {
+                            <p class="teacher-title">@staff.Staff.Title</p>
+                        }
+                        @if (!string.IsNullOrEmpty(staff.Staff.Branch))
+                        {
+                            <p class="teacher-branch"><strong>Branş:</strong> @staff.Staff.Branch</p>
+                        }
+                        @if (!string.IsNullOrEmpty(staff.Staff.Biography))
+                        {
+                            <p class="teacher-description">@staff.Staff.Biography</p>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <!-- Default staff if none are configured -->
+            <div class="teacher-card row align-items-center mb-5 pb-4 border-bottom" data-aos="fade-up">
+                <div class="col-lg-4 text-center">
+                    <img src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400"
+                         alt="Ayşe Yılmaz" class="img-fluid rounded-circle teacher-img">
+                </div>
+                <div class="col-lg-8 mt-4 mt-lg-0">
+                    <h3 class="teacher-name">Ayşe Yılmaz</h3>
+                    <p class="teacher-title">Okul Öncesi Öğretmeni</p>
+                    <p class="teacher-description">Ayşe Öğretmen, 10 yılı aşkın tecrübesiyle çocuklarımızın gelişimine rehberlik etmektedir. Yaratıcı drama ve Montessori eğitim teknikleri konusunda uzmandır. Çocukların bireysel yeteneklerini keşfetmelerine yardımcı olur.</p>
+                </div>
+            </div>
+
+            <div class="teacher-card row align-items-center mb-5 pb-4 border-bottom flex-lg-row-reverse" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-4 text-center">
+                    <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400"
+                         alt="Mehmet Can" class="img-fluid rounded-circle teacher-img">
+                </div>
+                <div class="col-lg-8 mt-4 mt-lg-0 text-lg-end">
+                    <h3 class="teacher-name">Mehmet Can</h3>
+                    <p class="teacher-title">Müzik ve Ritim Öğretmeni</p>
+                    <p class="teacher-description">Mehmet Öğretmen, müziğin evrensel dilini kullanarak çocukların ritim duygusunu ve müzik kulağını geliştirmektedir. Orff ve Kodaly metotları ile derslerini zenginleştirir.</p>
+                </div>
+            </div>
+
+            <div class="teacher-card row align-items-center mb-5 pb-4 border-bottom" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-4 text-center">
+                    <img src="https://images.pexels.com/photos/3184302/pexels-photo-3184302.jpeg?auto=compress&cs=tinysrgb&w=400"
+                         alt="Elif Deniz" class="img-fluid rounded-circle teacher-img">
+                </div>
+                <div class="col-lg-8 mt-4 mt-lg-0">
+                    <h3 class="teacher-name">Elif Deniz</h3>
+                    <p class="teacher-title">İngilizce Öğretmeni</p>
+                    <p class="teacher-description">Elif Öğretmen, oyun tabanlı öğrenme teknikleriyle çocuklara erken yaşta İngilizce sevgisi aşılamaktadır. İnteraktif dersleriyle dil gelişimini destekler.</p>
+                </div>
+            </div>
+
+            <div class="teacher-card row align-items-center mb-5 pb-4 border-bottom flex-lg-row-reverse" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-lg-4 text-center">
+                    <img src="https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=400"
+                         alt="Canan Demir" class="img-fluid rounded-circle teacher-img">
+                </div>
+                <div class="col-lg-8 mt-4 mt-lg-0 text-lg-end">
+                    <h3 class="teacher-name">Canan Demir</h3>
+                    <p class="teacher-title">Psikolog / Rehber Öğretmen</p>
+                    <p class="teacher-description">Canan Hanım, çocuklarımızın duygusal ve sosyal gelişimlerini takip ederek, ihtiyaç duydukları rehberliği sağlamaktadır. Ailelere de danışmanlık hizmeti sunar.</p>
+                </div>
+            </div>
+        }
+
+        @if (Model != null && !Model.Any())
+        {
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Henüz kadro bilgisi eklenmemiş. Admin panelinden personel bilgilerini ekleyebilirsiniz.
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section scripts {
+    <script>
+        // Responsive text alignment fix
+        function adjustTextAlignment() {
+            if (window.innerWidth < 992) {
+                document.querySelectorAll('.teacher-card .col-lg-8').forEach(function (element) {
+                    element.classList.remove('text-lg-end');
+                    element.classList.add('text-center');
+                });
+            } else {
+                document.querySelectorAll('.teacher-card.flex-lg-row-reverse .col-lg-8').forEach(function (element) {
+                    element.classList.add('text-lg-end');
+                    element.classList.remove('text-center');
+                });
+            }
+        }
+
+        // Run on load and resize
+        adjustTextAlignment();
+        window.addEventListener('resize', adjustTextAlignment);
+    </script>
+}

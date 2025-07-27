@@ -1,0 +1,73 @@
+﻿@using KindergartenSystem.Models
+@using KindergartenSystem.ViewModels
+@model KindergartenSystem.ViewModels.AboutViewModel
+@model KindergartenSystem.ViewModels.AboutViewModel
+@{
+    ViewBag.Title = "Hakkımızda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero-section" style="padding: 140px 0 80px;">
+    <div class="container text-center">
+        <h1 class="hero-title" data-aos="fade-up">Hakkımızda</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">
+            @ViewBag.CurrentKindergarten?.Name misyonu, vizyonu ve değerlerini keşfedin.
+        </p>
+    </div>
+</section>
+
+<section id="about-us" class="section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="@(Model.AboutUs?.ImagePath ?? "/Content/images/about-default.png")"
+                     alt="@ViewBag.CurrentKindergarten?.Name Hakkımızda"
+                     class="img-fluid rounded shadow">
+            </div>
+            <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left">
+                <h2 class="section-title text-lg-start">
+                    @(Model.AboutUs?.Title ?? ViewBag.CurrentKindergarten?.Name + ": Çocukların Geleceği İçin En İyi Başlangıç")
+                </h2>
+                <div class="text-muted">
+                    @if (!string.IsNullOrEmpty(Model.AboutUs?.Description))
+                    {
+                        @Html.Raw(Model.AboutUs.Description.Replace("\n", "<br/>"))
+                    }
+                    else
+                    {
+                        <p>@ViewBag.CurrentKindergarten?.Name olarak, çocuklarımızın güvenli, sıcak ve teşvik edici bir ortamda büyümesini sağlamak için çalışıyoruz. Eğitim kadromuz, yenilikçi eğitim metotları ve zenginleştirilmiş müfredatımızla her çocuğun bireysel potansiyelini en üst düzeye çıkarmayı hedefliyoruz.</p>
+                        <p>Misyonumuz, çocuklarımıza öğrenmeyi sevdirmek ve onları geleceğe hazırlarken, aynı zamanda güçlü ahlaki değerler ve sosyal beceriler kazandırmaktır. Vizyonumuz ise, Türkiye'nin önde gelen okul öncesi eğitim kurumlarından biri olarak, modern eğitim yaklaşımlarını benimseyerek sürekli gelişmektir.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.MissionVision != null)
+{
+    <section id="mission-vision-detail" class="section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="mission-vision-card mission">
+                        <i class="fas fa-rocket mv-icon"></i>
+                        <h3 class="mv-title">@(Model.MissionVision.MissionTitle ?? "Misyonumuz")</h3>
+                        <p class="mv-text">
+                            @(Model.MissionVision.MissionText ?? "Çocuklara öğrenmeyi sevdirerek, onları topluma faydalı bireyler olarak yetiştirmek.")
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="mission-vision-card vision">
+                        <i class="fas fa-eye mv-icon"></i>
+                        <h3 class="mv-title">@(Model.MissionVision.VisionTitle ?? "Vizyonumuz")</h3>
+                        <p class="mv-text">
+                            @(Model.MissionVision.VisionText ?? "Yenilikçi, sevgi dolu ve güvenli bir eğitim ortamı sunarak, çocukların potansiyelini en iyi şekilde ortaya çıkarmak.")
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
