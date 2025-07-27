@@ -22,8 +22,18 @@ namespace KindergartenSystem.Controllers
                 CurrentUser = User as KindergartenPrincipal;
                 if (CurrentUser != null)
                 {
-                    CurrentKindergarten = Context.Kindergartens
-                        .FirstOrDefault(k => k.Id == CurrentUser.KindergartenId);
+                    // For SuperAdmin, CurrentKindergarten can be null
+                    if (CurrentUser.KindergartenId > 0)
+                    {
+                        CurrentKindergarten = Context.Kindergartens
+                            .FirstOrDefault(k => k.Id == CurrentUser.KindergartenId);
+                    }
+                    else if (CurrentUser.Role == "SuperAdmin")
+                    {
+                        // SuperAdmin doesn't have a specific kindergarten - set to first one for display purposes
+                        CurrentKindergarten = Context.Kindergartens.FirstOrDefault(k => k.IsActive);
+                        System.Diagnostics.Debug.WriteLine($"SuperAdmin logged in - using default kindergarten: {CurrentKindergarten?.Name}");
+                    }
 
                     ViewBag.CurrentUser = CurrentUser;
                     ViewBag.CurrentKindergarten = CurrentKindergarten;
