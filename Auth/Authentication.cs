@@ -101,23 +101,28 @@ namespace KindergartenSystem.Auth
             {
                 System.Diagnostics.Debug.WriteLine($"ValidateUser called: email={email}, kindergartenId={kindergartenId}");
                 
-                var query = _context.Users
-                    .Include("Kindergarten")
-                    .Where(u => u.Email == email && u.IsActive);
+                var query = _context.Users.AsQueryable();
 
-                // For SuperAdmin login, kindergartenId can be null
-                if (kindergartenId.HasValue)
+                // If kindergartenId is null, it might be a SuperAdmin login attempt
+                if (!kindergartenId.HasValue)
                 {
-                    query = query.Where(u => u.KindergartenId == kindergartenId.Value);
+                    // First, check for a SuperAdmin with the given email
+                    var superAdmin = query.FirstOrDefault(u => u.Email == email && u.Role == "SuperAdmin" && u.IsActive);
+                    if (superAdmin != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine("SuperAdmin user found by email.");
+                        if (VerifyPassword(password, superAdmin.PasswordHash))
+                        {
+                            return superAdmin;
+                        }
+                    }
                 }
-                else
-                {
-                    // For SuperAdmin, accept users with Role = "SuperAdmin" and null KindergartenId
-                    query = query.Where(u => u.Role == "SuperAdmin" && u.KindergartenId == null);
-                }
-
-                var user = query.FirstOrDefault();
                 
+                // If not a SuperAdmin or if SuperAdmin password was wrong, check for a regular user
+                var user = _context.Users
+                    .Include("Kindergarten")
+                    .FirstOrDefault(u => u.Email == email && u.KindergartenId == kindergartenId && u.IsActive);
+
                 System.Diagnostics.Debug.WriteLine($"User found: {user != null}");
                 if (user != null)
                 {
