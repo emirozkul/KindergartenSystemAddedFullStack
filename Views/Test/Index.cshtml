@@ -1,0 +1,119 @@
+@{
+    ViewBag.Title = "Connection Test";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 50px;
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: rgba(255,255,255,0.1); 
+            padding: 40px; 
+            border-radius: 15px; 
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .success { 
+            color: #00ff88; 
+            font-size: 24px; 
+            margin-bottom: 20px;
+        }
+        .info { 
+            background: rgba(255,255,255,0.1); 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 10px 0;
+        }
+        .links { 
+            margin-top: 30px; 
+            text-align: center;
+        }
+        .links a { 
+            display: inline-block; 
+            background: rgba(255,255,255,0.2); 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px 24px; 
+            margin: 10px; 
+            border-radius: 25px; 
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .links a:hover { 
+            background: rgba(255,255,255,0.3); 
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success">✅ ASP.NET MVC Uygulaması Çalışıyor!</div>
+        
+        <div class="info">
+            <strong>🕐 Sunucu Zamanı:</strong> @ViewBag.ServerTime
+        </div>
+        
+        <div class="info">
+            <strong>💻 Makine Adı:</strong> @ViewBag.MachineName
+        </div>
+        
+        <div class="info">
+            <strong>🌐 İstek URL'si:</strong> @ViewBag.RequestUrl
+        </div>
+        
+        <div class="info">
+            <strong>📱 User Agent:</strong> @Request.UserAgent
+        </div>
+        
+        <div class="info">
+            <strong>🏷️ Algılanan Subdomain:</strong> @ViewBag.DetectedSubdomain
+        </div>
+        
+        @if (ViewBag.DatabaseStatus != null)
+        {
+            <div class="info">
+                <strong>🗄️ Veritabanı Durumu:</strong> @ViewBag.DatabaseStatus
+            </div>
+        }
+        
+        @if (ViewBag.SampleKindergarten != null)
+        {
+            <div class="info">
+                <strong>🏫 Örnek Kreş:</strong> @ViewBag.SampleKindergarten
+            </div>
+        }
+        
+        @if (ViewBag.RelationshipTest != null)
+        {
+            <div class="info">
+                <strong>🔗 İlişki Testi:</strong> @ViewBag.RelationshipTest
+            </div>
+        }
+        
+        @if (ViewBag.ErrorDetails != null)
+        {
+            <div class="info" style="color: #ff6b6b; background: rgba(255,107,107,0.1);">
+                <strong>❌ Hata Detayları:</strong><br/>
+                <pre style="white-space: pre-wrap; font-size: 12px;">@ViewBag.ErrorDetails</pre>
+            </div>
+        }
+        
+        <div class="links">
+            <a href="/Debug">🔍 Debug Sayfası</a>
+            <a href="/?subdomain=ornek">🏠 Ana Uygulama</a>
+            <a href="/Test/Html">📄 HTML Test</a>
+        </div>
+    </div>
+</body>
+</html>

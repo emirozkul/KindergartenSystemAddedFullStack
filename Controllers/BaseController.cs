@@ -33,11 +33,24 @@ namespace KindergartenSystem.Controllers
             {
                 // For public pages, determine kindergarten from subdomain
                 var subdomain = GetSubdomain();
+                System.Diagnostics.Debug.WriteLine($"Subdomain detected: '{subdomain}'");
+                
                 if (!string.IsNullOrEmpty(subdomain))
                 {
                     CurrentKindergarten = Context.Kindergartens
                         .FirstOrDefault(k => k.Subdomain == subdomain && k.IsActive);
+                    
+                    System.Diagnostics.Debug.WriteLine($"Kindergarten found: {CurrentKindergarten != null}");
+                    if (CurrentKindergarten != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Kindergarten name: {CurrentKindergarten.Name}");
+                    }
+                    
                     ViewBag.CurrentKindergarten = CurrentKindergarten;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("No subdomain provided");
                 }
             }
 
@@ -110,11 +123,41 @@ namespace KindergartenSystem.Controllers
                 var settings = Context.GeneralSettings
                     .FirstOrDefault(s => s.KindergartenId == CurrentKindergarten.Id);
                 ViewBag.Settings = settings;
+                System.Diagnostics.Debug.WriteLine($"Loaded settings for kindergarten: {CurrentKindergarten.Name}");
             }
             else
             {
-                // Redirect to main site or show error if kindergarten not found
-                filterContext.Result = new HttpNotFoundResult("Kindergarten not found");
+                // For development/debugging, show detailed error
+                var subdomain = GetSubdomain();
+                var errorMessage = $"Kindergarten not found for subdomain: '{subdomain}'. ";
+                
+                // Check if any kindergartens exist in database
+                var kindergartenCount = Context.Kindergartens.Count();
+                errorMessage += $"Total kindergartens in database: {kindergartenCount}. ";
+                
+                if (kindergartenCount > 0)
+                {
+                    var allSubdomains = string.Join(", ", Context.Kindergartens.Select(k => k.Subdomain));
+                    errorMessage += $"Available subdomains: {allSubdomains}";
+                    
+                    // If no subdomain provided and we're on localhost, redirect to first available kindergarten
+                    if (string.IsNullOrEmpty(subdomain) && Request.Url.Host.Contains("localhost"))
+                    {
+                        var firstKindergarten = Context.Kindergartens.FirstOrDefault(k => k.IsActive);
+                        if (firstKindergarten != null)
+                        {
+                            var redirectUrl = $"{Request.Url.Scheme}://{Request.Url.Authority}{Request.Url.AbsolutePath}?subdomain={firstKindergarten.Subdomain}";
+                            System.Diagnostics.Debug.WriteLine($"Redirecting to: {redirectUrl}");
+                            filterContext.Result = new RedirectResult(redirectUrl);
+                            return;
+                        }
+                    }
+                }
+                
+                System.Diagnostics.Debug.WriteLine(errorMessage);
+                
+                // Show custom error page instead of generic 404
+                filterContext.Result = new HttpNotFoundResult(errorMessage);
             }
         }
     }

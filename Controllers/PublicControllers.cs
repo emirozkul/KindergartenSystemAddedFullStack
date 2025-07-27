@@ -79,7 +79,7 @@ namespace KindergartenSystem.Controllers
             return View(events);
         }
 
-        public ActionResult EventDetail(int id)
+        public ActionResult EventDetails(int id)
         {
             if (CurrentKindergarten == null)
                 return HttpNotFound();
@@ -119,7 +119,7 @@ namespace KindergartenSystem.Controllers
             return View(announcements);
         }
 
-        public ActionResult AnnouncementDetail(int id)
+        public ActionResult AnnouncementDetails(int id)
         {
             if (CurrentKindergarten == null)
                 return HttpNotFound();
@@ -352,7 +352,7 @@ namespace KindergartenSystem.Controllers
                         return Redirect(returnUrl);
                     }
 
-                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError("", "Invalid email or password.");

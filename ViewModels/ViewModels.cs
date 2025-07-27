@@ -36,7 +36,6 @@ namespace KindergartenSystem.ViewModels
         public string Email { get; set; }
 
         [Required]
-        [Phone]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
 

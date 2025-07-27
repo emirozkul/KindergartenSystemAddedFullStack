@@ -1,0 +1,77 @@
+@{
+    ViewBag.Title = "Debug Information";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Information</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #001; color: #0f0; padding: 20px; }
+        .debug { background: #000; border: 1px solid #0f0; padding: 10px; margin: 10px 0; }
+        .error { color: #f00; }
+        .success { color: #0f0; }
+        .info { color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Kindergarten System Debug Information</h1>
+    
+    <div class="debug">
+        <h3>Request Information:</h3>
+        <p><strong>URL:</strong> @Request.Url</p>
+        <p><strong>Host:</strong> @Request.Url.Host</p>
+        <p><strong>Subdomain Query:</strong> @Request.QueryString["subdomain"]</p>
+    </div>
+
+    <div class="debug">
+        <h3>Database Connection:</h3>
+        @{
+            try 
+            {
+                using (var context = new KindergartenSystem.Data.KindergartenContext())
+                {
+                    var kindergartenCount = context.Kindergartens.Count();
+                    <p class="success">✅ Database connected successfully</p>
+                    <p class="info">📊 Total Kindergartens in database: @kindergartenCount</p>
+                    
+                    if (kindergartenCount > 0)
+                    {
+                        <h4>Available Kindergartens:</h4>
+                        <ul>
+                        @foreach (var k in context.Kindergartens.ToList())
+                        {
+                            <li>
+                                <strong>@k.Name</strong> 
+                                (Subdomain: @k.Subdomain, Active: @k.IsActive)
+                            </li>
+                        }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="error">❌ No kindergartens found in database</p>
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                <p class="error">❌ Database connection failed: @ex.Message</p>
+                <p class="error">Stack trace: @ex.StackTrace</p>
+            }
+        }
+    </div>
+    
+    <div class="debug">
+        <h3>Application Settings:</h3>
+        <p><strong>Machine Name:</strong> @Environment.MachineName</p>
+        <p><strong>OS Version:</strong> @Environment.OSVersion</p>
+        <p><strong>Current Directory:</strong> @Environment.CurrentDirectory</p>
+        <p><strong>.NET Version:</strong> @Environment.Version</p>
+    </div>
+    
+    <div class="debug">
+        <a href="http://localhost:8080/?subdomain=ornek" style="color: #0ff;">🔗 Try Main Application</a>
+    </div>
+</body>
+</html>

@@ -56,7 +56,7 @@
       <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -123,8 +123,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Auth\Authentication.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DebugController.cs" />
     <Compile Include="Controllers\PublicControllers.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Data\KindergartenContext.cs" />
+    <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,8 +182,16 @@
     <Content Include="Views\Shared\AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\KindergartenDB.mdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\KindergartenDB_log.ldf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>KindergartenDB.mdf</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />

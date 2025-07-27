@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nuget restore:*)",
+      "Bash(ls:*)",
+      "Bash(/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe KindergartenSystem.sln /p:Configuration=Debug)",
+      "Bash(find:*)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /p:Configuration=Debug /p:Platform=\"Any CPU\")",
+      "Bash(\"/mnt/c/Program Files/IIS Express/iisexpress.exe\" /path:\"C:\\Users\\hero_\\OneDrive\\Masaüstü\\KindergartenSystem\" /port:44317)",
+      "Bash(rm:*)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /p:Configuration=Debug /p:Platform=\"Any CPU\" /t:Clean,Build)",
+      "Bash(\"/mnt/c/Program Files/IIS Express/iisexpress.exe\" /path:\"C:\\Users\\hero_\\OneDrive\\Masaüstü\\KindergartenSystem\" /port:44317 /systray:false)",
+      "Bash(\"/mnt/c/Program Files/IIS Express/iisexpress.exe\" /path:\"C:\\Users\\hero_\\OneDrive\\Masaüstü\\KindergartenSystem\" /port:44317 /trace:error)",
+      "Bash(\"/mnt/c/Program Files/IIS Express/iisexpress.exe\" /path:\"C:\\Users\\hero_\\OneDrive\\Masaüstü\\KindergartenSystem\" /port:8080)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /p:Configuration=Debug /p:Platform=\"Any CPU\" /t:Build)",
+      "Bash(cmd /c:*)",
+      "Bash(/mnt/c/Windows/System32/netstat.exe -an)",
+      "Bash(\"/mnt/c/Program Files/IIS Express/iisexpress.exe\" /path:\"C:\\Users\\hero_\\OneDrive\\Masaüstü\\KindergartenSystem\" /port:3000)",
+      "Bash(./start.bat)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /p:Configuration=Debug)",
+      "Bash(curl:*)",
+      "Bash(ss:*)",
+      "Bash(cp:*)"
+    ],
+    "deny": []
+  }
+}

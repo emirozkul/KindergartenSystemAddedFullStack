@@ -17,6 +17,24 @@ namespace KindergartenSystem
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            
+            // Verify existing database connection
+            try
+            {
+                using (var context = new KindergartenSystem.Data.KindergartenContext())
+                {
+                    // Test database connection with existing data
+                    var kindergartenCount = context.Kindergartens.Count();
+                    var settingsCount = context.GeneralSettings.Count();
+                    var programsCount = context.CoreEducationPrograms.Count();
+                    
+                    System.Diagnostics.Debug.WriteLine($"✅ Database connection verified: Kindergartens({kindergartenCount}), Settings({settingsCount}), Programs({programsCount})");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Database connection failed: {ex.Message}");
+            }
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)

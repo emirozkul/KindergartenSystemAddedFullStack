@@ -9,6 +9,8 @@ namespace KindergartenSystem.Data
     {
         public KindergartenContext() : base("KindergartenDB")
         {
+            // Use existing database file from App_Data - disable auto initialization
+            Database.SetInitializer<KindergartenContext>(null);
         }
 
         public DbSet<Kindergarten> Kindergartens { get; set; }
@@ -28,20 +30,75 @@ namespace KindergartenSystem.Data
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            // Configure one-to-one relationship for GeneralSettings
-            modelBuilder.Entity<Kindergarten>()
-                .HasOptional(k => k.GeneralSettings)
-                .WithRequired(s => s.Kindergarten);
+            // Configure one-to-many relationship for GeneralSettings (not one-to-one)
+            modelBuilder.Entity<GeneralSettings>()
+                .HasRequired(s => s.Kindergarten)
+                .WithMany()
+                .HasForeignKey(s => s.KindergartenId)
+                .WillCascadeOnDelete(false);
 
-            // Configure one-to-one relationship for MissionVision
-            modelBuilder.Entity<Kindergarten>()
-                .HasOptional(k => k.MissionVision)
-                .WithRequired(m => m.Kindergarten);
+            // Configure one-to-many relationship for MissionVision (not one-to-one)
+            modelBuilder.Entity<MissionVision>()
+                .HasRequired(m => m.Kindergarten)
+                .WithMany()
+                .HasForeignKey(m => m.KindergartenId)
+                .WillCascadeOnDelete(false);
 
-            // Configure one-to-one relationship for AboutUsContent
-            modelBuilder.Entity<Kindergarten>()
-                .HasOptional(k => k.AboutUsContent)
-                .WithRequired(a => a.Kindergarten);
+            // Configure one-to-many relationship for AboutUsContent (not one-to-one)
+            modelBuilder.Entity<AboutUsContent>()
+                .HasRequired(a => a.Kindergarten)
+                .WithMany()
+                .HasForeignKey(a => a.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            // Configure other relationships
+            modelBuilder.Entity<User>()
+                .HasRequired(u => u.Kindergarten)
+                .WithMany(k => k.Users)
+                .HasForeignKey(u => u.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<CoreEducationProgram>()
+                .HasRequired(c => c.Kindergarten)
+                .WithMany(k => k.CoreEducationPrograms)
+                .HasForeignKey(c => c.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ParentTestimonial>()
+                .HasRequired(p => p.Kindergarten)
+                .WithMany(k => k.ParentTestimonials)
+                .HasForeignKey(p => p.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Event>()
+                .HasRequired(e => e.Kindergarten)
+                .WithMany(k => k.Events)
+                .HasForeignKey(e => e.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Staff>()
+                .HasRequired(s => s.Kindergarten)
+                .WithMany(k => k.StaffMembers)
+                .HasForeignKey(s => s.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Announcement>()
+                .HasRequired(a => a.Kindergarten)
+                .WithMany(k => k.Announcements)
+                .HasForeignKey(a => a.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Gallery>()
+                .HasRequired(g => g.Kindergarten)
+                .WithMany(k => k.GalleryImages)  
+                .HasForeignKey(g => g.KindergartenId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ContactSubmission>()
+                .HasRequired(c => c.Kindergarten)
+                .WithMany(k => k.ContactSubmissions)
+                .HasForeignKey(c => c.KindergartenId)
+                .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

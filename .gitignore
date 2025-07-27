@@ -266,6 +266,10 @@ ServiceFabricBackup/
 *.ldf
 *.ndf
 
+# Exception: Include project database files
+!App_Data/KindergartenDB.mdf
+!App_Data/KindergartenDB_log.ldf
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px;
+            text-align: center;
+        }
+        .success { 
+            background: rgba(255,255,255,0.1); 
+            padding: 30px; 
+            border-radius: 10px; 
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="success">
+        <h1>🎉 IIS Express Çalışıyor!</h1>
+        <p>Bu sayfayı görüyorsanız, IIS Express başarıyla çalışıyor demektir.</p>
+        <p><strong>Test Zamanı:</strong> <script>document.write(new Date().toLocaleString('tr-TR'));</script></p>
+        <hr>
+        <p><a href="/Debug" style="color: #ffff00;">🔍 Debug Sayfasına Git</a></p>
+        <p><a href="/?subdomain=ornek" style="color: #00ff00;">🏠 Ana Uygulamaya Git</a></p>
+    </div>
+</body>
+</html>

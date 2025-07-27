@@ -24,9 +24,9 @@ namespace KindergartenSystem.Models
 
         // Navigation properties
         public virtual ICollection<User> Users { get; set; }
-        public virtual GeneralSettings GeneralSettings { get; set; }
-        public virtual MissionVision MissionVision { get; set; }
-        public virtual AboutUsContent AboutUsContent { get; set; }
+        public virtual ICollection<GeneralSettings> GeneralSettings { get; set; }
+        public virtual ICollection<MissionVision> MissionVisions { get; set; }
+        public virtual ICollection<AboutUsContent> AboutUsContents { get; set; }
         public virtual ICollection<CoreEducationProgram> CoreEducationPrograms { get; set; }
         public virtual ICollection<ParentTestimonial> ParentTestimonials { get; set; }
         public virtual ICollection<Event> Events { get; set; }
