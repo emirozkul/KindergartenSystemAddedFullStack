@@ -28,19 +28,30 @@ namespace KindergartenSystem.Data
 
             // Create SuperAdmin user (should not be tied to any specific kindergarten)
             var authService = new AuthenticationService(context);
+            
+            // Test password hash generation
+            var testPassword = "SuperAdmin123!";
+            var hashedPassword = authService.HashPassword(testPassword);
+            System.Diagnostics.Debug.WriteLine($"=== SuperAdmin Creation ===");
+            System.Diagnostics.Debug.WriteLine($"Original Password: {testPassword}");
+            System.Diagnostics.Debug.WriteLine($"Hashed Password: {hashedPassword}");
+            
             var superAdmin = new User
             {
                 KindergartenId = null, // SuperAdmin is not tied to any specific kindergarten
                 Username = "superadmin",
                 Email = "superadmin@system.com",
-                PasswordHash = authService.HashPassword("SuperAdmin123!"),
+                PasswordHash = hashedPassword,
                 Role = "SuperAdmin",
                 IsActive = true,
                 CreatedDate = DateTime.Now
             };
             context.Users.Add(superAdmin);
             
-            System.Diagnostics.Debug.WriteLine($"Created SuperAdmin user: {superAdmin.Email} with password: SuperAdmin123!");
+            System.Diagnostics.Debug.WriteLine($"Created SuperAdmin user: {superAdmin.Email}");
+            System.Diagnostics.Debug.WriteLine($"SuperAdmin KindergartenId: {superAdmin.KindergartenId}");
+            System.Diagnostics.Debug.WriteLine($"SuperAdmin Role: {superAdmin.Role}");
+            System.Diagnostics.Debug.WriteLine($"SuperAdmin IsActive: {superAdmin.IsActive}");
 
             // Create kindergarten admin user
             var adminUser = new User

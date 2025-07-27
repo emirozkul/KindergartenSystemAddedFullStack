@@ -34,7 +34,9 @@ namespace KindergartenSystem
             {
                 using (var context = new KindergartenSystem.Data.KindergartenContext())
                 {
-                    // Force database creation/update
+                    // Force database recreation to ensure latest data
+                    System.Diagnostics.Debug.WriteLine("Forcing database recreation...");
+                    context.Database.Delete();
                     context.Database.Initialize(true);
                     
                     // Test database connection with existing data
@@ -45,17 +47,19 @@ namespace KindergartenSystem
                     
                     System.Diagnostics.Debug.WriteLine($"✅ Database connection verified: Kindergartens({kindergartenCount}), Settings({settingsCount}), Programs({programsCount}), Users({userCount})");
                     
-                    // Log admin credentials
-                    var adminUser = context.Users.FirstOrDefault(u => u.Role == "KindergartenAdmin");
-                    if (adminUser != null)
+                    // Log all users for debugging
+                    var allUsers = context.Users.ToList();
+                    foreach (var user in allUsers)
                     {
-                        System.Diagnostics.Debug.WriteLine($"👤 Admin Login: {adminUser.Email} / admin123");
-                    }
-                    
-                    var superAdmin = context.Users.FirstOrDefault(u => u.Role == "SuperAdmin");
-                    if (superAdmin != null)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"🔧 SuperAdmin Login: {superAdmin.Email} / SuperAdmin123!");
+                        System.Diagnostics.Debug.WriteLine($"User: {user.Email}, Role: {user.Role}, KindergartenId: {user.KindergartenId}, Active: {user.IsActive}");
+                        if (user.Role == "SuperAdmin")
+                        {
+                            System.Diagnostics.Debug.WriteLine($"🔧 SuperAdmin Login: {user.Email} / SuperAdmin123!");
+                        }
+                        else if (user.Role == "KindergartenAdmin")
+                        {
+                            System.Diagnostics.Debug.WriteLine($"👤 Admin Login: {user.Email} / admin123");
+                        }
                     }
                 }
             }
@@ -112,6 +116,10 @@ namespace KindergartenSystem
 
     }
 }
+
+
+
+
 
 
 
