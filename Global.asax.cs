@@ -21,14 +21,17 @@ namespace KindergartenSystem
             Thread.CurrentThread.CurrentCulture = turkishCulture;
             Thread.CurrentThread.CurrentUICulture = turkishCulture;
             
-            // Initialize database
-            Database.SetInitializer(new KindergartenSystem.Data.DatabaseInitializer());
+            // Database initializer is set to null in the context to prevent automatic recreation.
+            // The line below is removed to avoid overriding that setting.
+            // Database.SetInitializer(new KindergartenSystem.Data.DatabaseInitializer());
             
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
+            // The following block is commented out to prevent the database from being deleted and re-created on every application start.
+            /*
             // Test database connection and ensure it's created
             try
             {
@@ -68,6 +71,7 @@ namespace KindergartenSystem
                 System.Diagnostics.Debug.WriteLine($"❌ Database connection failed: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"❌ Stack trace: {ex.StackTrace}");
             }
+            */
         }
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
@@ -116,6 +120,14 @@ namespace KindergartenSystem
 
     }
 }
+
+
+
+
+
+
+
+
 
 
 
