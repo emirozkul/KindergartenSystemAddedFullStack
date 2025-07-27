@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+using System.Data.Entity;
 
 namespace KindergartenSystem
 {
@@ -20,27 +21,48 @@ namespace KindergartenSystem
             Thread.CurrentThread.CurrentCulture = turkishCulture;
             Thread.CurrentThread.CurrentUICulture = turkishCulture;
             
+            // Initialize database
+            Database.SetInitializer(new KindergartenSystem.Data.DatabaseInitializer());
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
-            // Verify existing database connection
+            // Test database connection and ensure it's created
             try
             {
                 using (var context = new KindergartenSystem.Data.KindergartenContext())
                 {
+                    // Force database creation/update
+                    context.Database.Initialize(true);
+                    
                     // Test database connection with existing data
                     var kindergartenCount = context.Kindergartens.Count();
                     var settingsCount = context.GeneralSettings.Count();
                     var programsCount = context.CoreEducationPrograms.Count();
+                    var userCount = context.Users.Count();
                     
-                    System.Diagnostics.Debug.WriteLine($"✅ Database connection verified: Kindergartens({kindergartenCount}), Settings({settingsCount}), Programs({programsCount})");
+                    System.Diagnostics.Debug.WriteLine($"✅ Database connection verified: Kindergartens({kindergartenCount}), Settings({settingsCount}), Programs({programsCount}), Users({userCount})");
+                    
+                    // Log admin credentials
+                    var adminUser = context.Users.FirstOrDefault(u => u.Role == "KindergartenAdmin");
+                    if (adminUser != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"👤 Admin Login: {adminUser.Email} / admin123");
+                    }
+                    
+                    var superAdmin = context.Users.FirstOrDefault(u => u.Role == "SuperAdmin");
+                    if (superAdmin != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"🔧 SuperAdmin Login: {superAdmin.Email} / SuperAdmin123!");
+                    }
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"❌ Database connection failed: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"❌ Stack trace: {ex.StackTrace}");
             }
         }
 
@@ -90,6 +112,8 @@ namespace KindergartenSystem
 
     }
 }
+
+
 
 
 

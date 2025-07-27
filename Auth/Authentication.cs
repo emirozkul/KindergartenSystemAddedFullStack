@@ -126,7 +126,7 @@ namespace KindergartenSystem.Auth
         {
             var userData = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}",
                 user.Id,
-                user.KindergartenId ?? 0,
+                user.KindergartenId.HasValue ? user.KindergartenId.Value : 0,
                 user.Username,
                 user.Email,
                 user.Role,

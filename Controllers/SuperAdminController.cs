@@ -203,7 +203,7 @@ namespace KindergartenSystem.Controllers
                 var authService = new AuthenticationService(Context);
                 var user = new User
                 {
-                    KindergartenId = model.KindergartenId,
+                    KindergartenId = model.Role == "SuperAdmin" ? (int?)null : model.KindergartenId,
                     Username = model.Username,
                     Email = model.Email,
                     PasswordHash = authService.HashPassword(model.Password),
@@ -240,7 +240,7 @@ namespace KindergartenSystem.Controllers
             var model = new EditUserViewModel
             {
                 Id = user.Id,
-                KindergartenId = user.KindergartenId,
+                KindergartenId = user.KindergartenId ?? 0,
                 Username = user.Username,
                 Email = user.Email,
                 Role = user.Role,
@@ -272,7 +272,7 @@ namespace KindergartenSystem.Controllers
                         return View(model);
                     }
 
-                    user.KindergartenId = model.KindergartenId;
+                    user.KindergartenId = model.Role == "SuperAdmin" ? (int?)null : model.KindergartenId;
                     user.Username = model.Username;
                     user.Email = model.Email;
                     user.Role = model.Role;

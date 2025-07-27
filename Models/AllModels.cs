@@ -41,8 +41,7 @@ namespace KindergartenSystem.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int KindergartenId { get; set; }
+        public int? KindergartenId { get; set; } // Nullable for SuperAdmin
 
         [Required]
         [MaxLength(100)]

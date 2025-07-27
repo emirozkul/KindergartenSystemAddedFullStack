@@ -1,272 +1,176 @@
 @model KindergartenSystem.ViewModels.SettingsViewModel
 @{
-    ViewBag.Title = "Settings";
+    ViewBag.Title = "Ayarlar";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <h2>Settings</h2>
-            <p class="text-muted">Manage your kindergarten's general settings and content</p>
+        <div class="col-12">
+            <h1 class="h3 mb-4">
+                <i class="fas fa-cog text-primary"></i>
+                Sistem Ayarlarý
+            </h1>
         </div>
     </div>
 
     @if (TempData["Success"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Success"]
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
     @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["Error"]
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
-    @using (Html.BeginForm("Settings", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Settings", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation", novalidate = "novalidate" }))
     {
         @Html.AntiForgeryToken()
-        
+
         <div class="row">
-            <div class="col-md-8">
-                <!-- General Settings -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-cog mr-2"></i>General Settings</h5>
+            <!-- General Settings -->
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Genel Ayarlar</h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.GeneralSettings.Slogan, new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GeneralSettings.Slogan, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.GeneralSettings.Slogan, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.Slogan, "Ana Slogan", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.Slogan, new { @class = "form-control" })
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.GeneralSettings.SubSlogan, new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GeneralSettings.SubSlogan, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.GeneralSettings.SubSlogan, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.SubSlogan, "Alt Slogan", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.SubSlogan, new { @class = "form-control" })
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.GeneralSettings.FooterSlogan, new { @class = "form-label" })
-                            @Html.TextBoxFor(m => m.GeneralSettings.FooterSlogan, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.GeneralSettings.FooterSlogan, "", new { @class = "text-danger" })
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.GeneralSettings.FooterSlogan, "Footer Slogan", new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.GeneralSettings.FooterSlogan, new { @class = "form-control", rows = 2 })
                         </div>
-                    </div>
-                </div>
 
-                <!-- Contact Information -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-address-book mr-2"></i>Contact Information</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.GeneralSettings.Address, new { @class = "form-label" })
-                            @Html.TextAreaFor(m => m.GeneralSettings.Address, new { @class = "form-control", rows = 2 })
-                            @Html.ValidationMessageFor(m => m.GeneralSettings.Address, "", new { @class = "text-danger" })
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.GeneralSettings.Address, "Adres", new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.GeneralSettings.Address, new { @class = "form-control", rows = 3 })
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.GeneralSettings.Phone, new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GeneralSettings.Phone, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.GeneralSettings.Phone, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.Phone, "Telefon", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.Phone, new { @class = "form-control" })
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.GeneralSettings.Email, new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.GeneralSettings.Email, new { @class = "form-control", type = "email" })
-                                    @Html.ValidationMessageFor(m => m.GeneralSettings.Email, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.Email, "E-posta", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.Email, new { @class = "form-control", type = "email" })
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Social Media -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-share-alt mr-2"></i>Social Media Links</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.GeneralSettings.FacebookUrl, new { @class = "form-label" })
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fab fa-facebook-f"></i></span>
-                                </div>
-                                @Html.TextBoxFor(m => m.GeneralSettings.FacebookUrl, new { @class = "form-control", placeholder = "https://facebook.com/yourpage" })
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.FacebookUrl, "Facebook URL", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.FacebookUrl, new { @class = "form-control" })
                             </div>
-                            @Html.ValidationMessageFor(m => m.GeneralSettings.FacebookUrl, "", new { @class = "text-danger" })
+                            <div class="col-md-4 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.TwitterUrl, "Twitter URL", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.TwitterUrl, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                @Html.LabelFor(m => m.GeneralSettings.InstagramUrl, "Instagram URL", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GeneralSettings.InstagramUrl, new { @class = "form-control" })
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.GeneralSettings.InstagramUrl, new { @class = "form-label" })
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fab fa-instagram"></i></span>
-                                </div>
-                                @Html.TextBoxFor(m => m.GeneralSettings.InstagramUrl, new { @class = "form-control", placeholder = "https://instagram.com/yourpage" })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.GeneralSettings.InstagramUrl, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.GeneralSettings.TwitterUrl, new { @class = "form-label" })
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fab fa-twitter"></i></span>
-                                </div>
-                                @Html.TextBoxFor(m => m.GeneralSettings.TwitterUrl, new { @class = "form-control", placeholder = "https://twitter.com/yourpage" })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.GeneralSettings.TwitterUrl, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Google Maps -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-map-marker-alt mr-2"></i>Location</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.GeneralSettings.GoogleMapEmbed, new { @class = "form-label" })
-                            <small class="form-text text-muted">Paste the Google Maps embed code here</small>
-                            @Html.TextAreaFor(m => m.GeneralSettings.GoogleMapEmbed, new { @class = "form-control", rows = 4, placeholder = "<iframe src=\"https://www.google.com/maps/embed?...\" width=\"600\" height=\"450\" frameborder=\"0\" allowfullscreen></iframe>" })
-                            @Html.ValidationMessageFor(m => m.GeneralSettings.GoogleMapEmbed, "", new { @class = "text-danger" })
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.GeneralSettings.GoogleMapEmbed, "Google Maps Embed Kodu", new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.GeneralSettings.GoogleMapEmbed, new { @class = "form-control", rows = 4 })
                         </div>
                     </div>
                 </div>
 
                 <!-- Mission & Vision -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-bullseye mr-2"></i>Mission & Vision</h5>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Misyon & Vizyon</h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.MissionVision.MissionTitle, new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.MissionVision.MissionTitle, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.MissionVision.MissionTitle, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.MissionVision.MissionText, new { @class = "form-label" })
-                                    @Html.TextAreaFor(m => m.MissionVision.MissionText, new { @class = "form-control", rows = 4 })
-                                    @Html.ValidationMessageFor(m => m.MissionVision.MissionText, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.MissionVision.MissionTitle, "Misyon Baþlýðý", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.MissionVision.MissionTitle, new { @class = "form-control" })
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.MissionVision.VisionTitle, new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.MissionVision.VisionTitle, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.MissionVision.VisionTitle, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.MissionVision.VisionText, new { @class = "form-label" })
-                                    @Html.TextAreaFor(m => m.MissionVision.VisionText, new { @class = "form-control", rows = 4 })
-                                    @Html.ValidationMessageFor(m => m.MissionVision.VisionText, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.MissionVision.VisionTitle, "Vizyon Baþlýðý", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.MissionVision.VisionTitle, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.MissionVision.MissionText, "Misyon Metni", new { @class = "form-label" })
+                                @Html.TextAreaFor(m => m.MissionVision.MissionText, new { @class = "form-control", rows = 4 })
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.MissionVision.VisionText, "Vizyon Metni", new { @class = "form-label" })
+                                @Html.TextAreaFor(m => m.MissionVision.VisionText, new { @class = "form-control", rows = 4 })
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <!-- Logo Upload -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-image mr-2"></i>Logo</h5>
+            <!-- File Uploads -->
+            <div class="col-lg-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Dosya Yüklemeleri</h6>
                     </div>
                     <div class="card-body">
-                        @if (!string.IsNullOrEmpty(Model.GeneralSettings.LogoPath))
-                        {
-                            <div class="text-center mb-3">
-                                <img src="@Model.GeneralSettings.LogoPath" alt="Current Logo" class="img-fluid" style="max-height: 100px;" />
-                                <p class="text-muted small">Current Logo</p>
-                            </div>
-                        }
-                        <div class="form-group">
-                            <label for="logoFile" class="form-label">Upload New Logo</label>
-                            <input type="file" name="logoFile" id="logoFile" class="form-control-file" accept="image/*" />
-                            <small class="form-text text-muted">Recommended size: 200x80px</small>
+                        <div class="mb-4">
+                            <label class="form-label">Logo Yükle</label>
+                            @if (!string.IsNullOrEmpty(Model.GeneralSettings.LogoPath))
+                            {
+                                <div class="mb-2">
+                                    <img src="@Model.GeneralSettings.LogoPath" alt="Current Logo" style="max-width: 100px; max-height: 50px;" />
+                                </div>
+                            }
+                            <input type="file" name="logoFile" class="form-control" accept="image/*" />
                         </div>
-                    </div>
-                </div>
 
-                <!-- Footer Logo Upload -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-image mr-2"></i>Footer Logo</h5>
-                    </div>
-                    <div class="card-body">
-                        @if (!string.IsNullOrEmpty(Model.GeneralSettings.FooterLogoPath))
-                        {
-                            <div class="text-center mb-3">
-                                <img src="@Model.GeneralSettings.FooterLogoPath" alt="Current Footer Logo" class="img-fluid" style="max-height: 80px;" />
-                                <p class="text-muted small">Current Footer Logo</p>
-                            </div>
-                        }
-                        <div class="form-group">
-                            <label for="footerLogoFile" class="form-label">Upload New Footer Logo</label>
-                            <input type="file" name="footerLogoFile" id="footerLogoFile" class="form-control-file" accept="image/*" />
-                            <small class="form-text text-muted">Recommended size: 150x60px</small>
+                        <div class="mb-4">
+                            <label class="form-label">Footer Logo Yükle</label>
+                            @if (!string.IsNullOrEmpty(Model.GeneralSettings.FooterLogoPath))
+                            {
+                                <div class="mb-2">
+                                    <img src="@Model.GeneralSettings.FooterLogoPath" alt="Current Footer Logo" style="max-width: 100px; max-height: 50px;" />
+                                </div>
+                            }
+                            <input type="file" name="footerLogoFile" class="form-control" accept="image/*" />
                         </div>
-                    </div>
-                </div>
 
-                <!-- Hero Background Upload -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5><i class="fas fa-image mr-2"></i>Hero Background</h5>
-                    </div>
-                    <div class="card-body">
-                        @if (!string.IsNullOrEmpty(Model.GeneralSettings.HeroBackgroundPath))
-                        {
-                            <div class="text-center mb-3">
-                                <img src="@Model.GeneralSettings.HeroBackgroundPath" alt="Current Hero Background" class="img-fluid" style="max-height: 120px;" />
-                                <p class="text-muted small">Current Hero Background</p>
-                            </div>
-                        }
-                        <div class="form-group">
-                            <label for="heroBackgroundFile" class="form-label">Upload New Hero Background</label>
-                            <input type="file" name="heroBackgroundFile" id="heroBackgroundFile" class="form-control-file" accept="image/*" />
-                            <small class="form-text text-muted">Recommended size: 1920x600px</small>
+                        <div class="mb-4">
+                            <label class="form-label">Ana Sayfa Arkaplan Resmi</label>
+                            @if (!string.IsNullOrEmpty(Model.GeneralSettings.HeroBackgroundPath))
+                            {
+                                <div class="mb-2">
+                                    <img src="@Model.GeneralSettings.HeroBackgroundPath" alt="Current Background" style="max-width: 100px; max-height: 50px;" />
+                                </div>
+                            }
+                            <input type="file" name="heroBackgroundFile" class="form-control" accept="image/*" />
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-save mr-2"></i>Save Settings
-                    </button>
-                    <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary btn-lg ml-2">
-                        <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-                    </a>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-save"></i> Ayarlarý Kaydet
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

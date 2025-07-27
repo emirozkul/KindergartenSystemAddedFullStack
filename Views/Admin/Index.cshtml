@@ -6,188 +6,141 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <h2>Dashboard - @Model.KindergartenName</h2>
-            <p class="text-muted">Welcome to your kindergarten management panel</p>
+        <div class="col-12">
+            <h1 class="h3 mb-4">
+                <i class="fas fa-tachometer-alt text-primary"></i>
+                Dashboard - @Model.KindergartenName
+            </h1>
         </div>
     </div>
 
     <!-- Statistics Cards -->
     <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Events</h5>
-                            <h3>@Model.TotalEvents</h3>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Toplam Etkinlik</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalEvents</div>
                         </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-calendar-alt fa-2x"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a href="@Url.Action("Index", "Events")" class="text-white">
-                        <small>View all events <i class="fas fa-arrow-right"></i></small>
-                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Staff</h5>
-                            <h3>@Model.TotalStaff</h3>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Personel Sayýsý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalStaff</div>
                         </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-users fa-2x"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a href="@Url.Action("Index", "Staff")" class="text-white">
-                        <small>Manage staff <i class="fas fa-arrow-right"></i></small>
-                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Programs</h5>
-                            <h3>@Model.TotalPrograms</h3>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Eðitim Programlarý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalPrograms</div>
                         </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-graduation-cap fa-2x"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-book fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a href="@Url.Action("Index", "Programs")" class="text-white">
-                        <small>Manage programs <i class="fas fa-arrow-right"></i></small>
-                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Testimonials</h5>
-                            <h3>@Model.TotalTestimonials</h3>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Veli Yorumlarý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalTestimonials</div>
                         </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-star fa-2x"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a href="@Url.Action("Index", "Testimonials")" class="text-white">
-                        <small>Manage testimonials <i class="fas fa-arrow-right"></i></small>
-                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Recent Messages -->
+    <!-- Content Row -->
     <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fas fa-envelope mr-2"></i>Recent Contact Messages</h5>
+        <!-- Recent Contact Submissions -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Son Ýletiþim Mesajlarý</h6>
                 </div>
                 <div class="card-body">
-                    @if (Model.RecentContactSubmissions != null && Model.RecentContactSubmissions.Count > 0)
+                    @if (Model.RecentContactSubmissions != null && Model.RecentContactSubmissions.Any())
                     {
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Subject</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var message in Model.RecentContactSubmissions)
-                                    {
-                                        <tr>
-                                            <td>@message.FirstName @message.LastName</td>
-                                            <td>@message.Subject</td>
-                                            <td>@message.SubmittedDate.ToString("dd.MM.yyyy")</td>
-                                            <td>
-                                                @if (message.IsRead)
-                                                {
-                                                    <span class="badge badge-success">Read</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge badge-warning">Unread</span>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <a href="@Url.Action("Index", "Messages")" class="btn btn-primary btn-sm">View All Messages</a>
-                        </div>
+                        @foreach (var contact in Model.RecentContactSubmissions)
+                        {
+                            <div class="media mb-3">
+                                <div class="media-body">
+                                    <h6 class="mt-0">@contact.FirstName @contact.LastName</h6>
+                                    <small class="text-muted">@contact.Email - @contact.SubmittedDate.ToString("dd.MM.yyyy HH:mm")</small>
+                                    <p class="mb-1">@contact.Subject</p>
+                                    <p class="text-muted small">@(contact.Message.Length > 100 ? contact.Message.Substring(0, 100) + "..." : contact.Message)</p>
+                                </div>
+                            </div>
+                            <hr />
+                        }
                     }
                     else
                     {
-                        <p class="text-muted text-center">No recent messages</p>
+                        <p class="text-muted">Henüz iletiþim mesajý bulunmuyor.</p>
                     }
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fas fa-bullhorn mr-2"></i>Recent Announcements</h5>
+        <!-- Recent Announcements -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Son Duyurular</h6>
                 </div>
                 <div class="card-body">
-                    @if (Model.RecentAnnouncements != null && Model.RecentAnnouncements.Count > 0)
+                    @if (Model.RecentAnnouncements != null && Model.RecentAnnouncements.Any())
                     {
-                        foreach (var announcement in Model.RecentAnnouncements)
+                        @foreach (var announcement in Model.RecentAnnouncements)
                         {
                             <div class="media mb-3">
                                 <div class="media-body">
                                     <h6 class="mt-0">@announcement.Title</h6>
                                     <small class="text-muted">@announcement.AnnouncementDate.ToString("dd.MM.yyyy")</small>
-                                    <p class="mb-0">
-                                        @{
-                                            var desc = announcement.Description ?? "";
-                                            if (desc.Length > 100) 
-                                            {
-                                                desc = desc.Substring(0, 100) + "...";
-                                            }
-                                        }
-                                        @Html.Raw(desc)
-                                    </p>
+                                    <p class="text-muted small">@(announcement.Description != null && announcement.Description.Length > 100 ? announcement.Description.Substring(0, 100) + "..." : announcement.Description)</p>
                                 </div>
                             </div>
                             <hr />
                         }
-                        <div class="text-center">
-                            <a href="@Url.Action("Index", "Announcements")" class="btn btn-primary btn-sm">View All Announcements</a>
-                        </div>
                     }
                     else
                     {
-                        <p class="text-muted text-center">No recent announcements</p>
+                        <p class="text-muted">Henüz duyuru bulunmuyor.</p>
                     }
                 </div>
             </div>
@@ -195,48 +148,32 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fas fa-plus mr-2"></i>Quick Actions</h5>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Hýzlý Ýþlemler</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Create", "Events")" class="btn btn-outline-primary btn-block">
-                                <i class="fas fa-calendar-plus"></i><br />
-                                Add Event
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Settings", "Admin")" class="btn btn-primary btn-block">
+                                <i class="fas fa-cog"></i> Ayarlar
                             </a>
                         </div>
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Create", "Announcements")" class="btn btn-outline-success btn-block">
-                                <i class="fas fa-bullhorn"></i><br />
-                                Add Announcement
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Events")" class="btn btn-success btn-block">
+                                <i class="fas fa-calendar-plus"></i> Yeni Etkinlik
                             </a>
                         </div>
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Create", "Staff")" class="btn btn-outline-info btn-block">
-                                <i class="fas fa-user-plus"></i><br />
-                                Add Staff
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Staff")" class="btn btn-info btn-block">
+                                <i class="fas fa-user-plus"></i> Personel Yönetimi
                             </a>
                         </div>
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Create", "Programs")" class="btn btn-outline-warning btn-block">
-                                <i class="fas fa-plus-circle"></i><br />
-                                Add Program
-                            </a>
-                        </div>
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Create", "Gallery")" class="btn btn-outline-secondary btn-block">
-                                <i class="fas fa-image"></i><br />
-                                Add Image
-                            </a>
-                        </div>
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Settings", "Admin")" class="btn btn-outline-dark btn-block">
-                                <i class="fas fa-cog"></i><br />
-                                Settings
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Announcements")" class="btn btn-warning btn-block">
+                                <i class="fas fa-bullhorn"></i> Duyuru Ekle
                             </a>
                         </div>
                     </div>
