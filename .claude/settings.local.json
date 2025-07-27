@@ -20,7 +20,11 @@
       "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /p:Configuration=Debug)",
       "Bash(curl:*)",
       "Bash(ss:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(powershell:*)",
+      "Bash(mkdir:*)",
+      "Bash(dotnet build)",
+      "Bash(msbuild:*)"
     ],
     "deny": []
   }

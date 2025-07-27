@@ -74,4 +74,143 @@ namespace KindergartenSystem.ViewModels
         public int UnreadMessages { get; set; }
         public List<ContactSubmission> RecentSubmissions { get; set; }
     }
+
+    // Admin Panel ViewModels
+    public class AdminDashboardViewModel
+    {
+        public string KindergartenName { get; set; }
+        public int TotalEvents { get; set; }
+        public int TotalStaff { get; set; }
+        public int TotalPrograms { get; set; }
+        public int TotalTestimonials { get; set; }
+        public List<ContactSubmission> RecentContactSubmissions { get; set; }
+        public List<Announcement> RecentAnnouncements { get; set; }
+    }
+
+    public class SettingsViewModel
+    {
+        public GeneralSettings GeneralSettings { get; set; }
+        public MissionVision MissionVision { get; set; }
+    }
+
+    // SuperAdmin ViewModels
+    public class SuperAdminDashboardViewModel
+    {
+        public int TotalKindergartens { get; set; }
+        public int ActiveKindergartens { get; set; }
+        public int TotalUsers { get; set; }
+        public int ActiveUsers { get; set; }
+        public List<Kindergarten> RecentKindergartens { get; set; }
+        public List<User> RecentUsers { get; set; }
+    }
+
+    public class CreateUserViewModel
+    {
+        [Required]
+        [Display(Name = "Kindergarten")]
+        public int KindergartenId { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+    }
+
+    public class EditUserViewModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Kindergarten")]
+        public int KindergartenId { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [StringLength(100, MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password (leave blank to keep current)")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmNewPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; }
+    }
+
+    // Event ViewModels
+    public class EventListViewModel
+    {
+        public List<Event> UpcomingEvents { get; set; }
+        public List<Event> PastEvents { get; set; }
+    }
+
+    public class EventDetailsViewModel
+    {
+        public Event Event { get; set; }
+        public List<Event> RelatedEvents { get; set; }
+    }
+
+    // Gallery ViewModels
+    public class GalleryViewModel
+    {
+        public List<Gallery> Images { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int TotalImages { get; set; }
+        public bool HasNextPage => PageNumber * PageSize < TotalImages;
+        public bool HasPreviousPage => PageNumber > 1;
+    }
+
+    // Staff ViewModels
+    public class StaffListViewModel
+    {
+        public List<Staff> StaffMembers { get; set; }
+        public string DepartmentFilter { get; set; }
+    }
+
+    // Announcements ViewModels
+    public class AnnouncementListViewModel
+    {
+        public List<Announcement> Announcements { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int TotalAnnouncements { get; set; }
+        public bool HasNextPage => PageNumber * PageSize < TotalAnnouncements;
+        public bool HasPreviousPage => PageNumber > 1;
+    }
 }

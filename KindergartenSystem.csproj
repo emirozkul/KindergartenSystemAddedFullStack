@@ -122,10 +122,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Auth\Authentication.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AnnouncementsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DebugController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
+    <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\PublicControllers.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TestimonialsController.cs" />
     <Compile Include="Data\KindergartenContext.cs" />
     <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,6 +190,8 @@
     <Content Include="Views\Home\Announcements.cshtml" />
     <Content Include="Views\Home\AnnouncementDetails.cshtml" />
     <Content Include="Views\Shared\AdminLayout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\SelectKindergarten.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\images\" />

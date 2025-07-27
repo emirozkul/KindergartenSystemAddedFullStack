@@ -1,0 +1,244 @@
+@model KindergartenSystem.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Süper Admin Girişi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head {
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        max-width: 400px;
+        width: 100%;
+        margin-top: 80px;
+    }
+    
+    .login-header {
+        background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    
+    .login-header h2 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .login-header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+    
+    .login-body {
+        padding: 40px 30px;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .form-control {
+        border: 2px solid #e1e8ed;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .form-control:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        outline: none;
+    }
+    
+    .btn-login {
+        background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        padding: 12px;
+        font-size: 16px;
+        width: 100%;
+        transition: transform 0.2s ease;
+        cursor: pointer;
+    }
+    
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3);
+    }
+    
+    .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+    }
+    
+    .remember-me input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #dc3545;
+    }
+    
+    .alert {
+        background: #fee;
+        color: #c33;
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #fcc;
+    }
+    
+    .superadmin-info {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    
+    .superadmin-info i {
+        color: #856404;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .superadmin-info p {
+        margin: 0;
+        color: #856404;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .back-link a {
+        color: #6c757d;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .back-link a:hover {
+        color: #dc3545;
+        text-decoration: underline;
+    }
+    
+    .navbar, .footer {
+        display: none !important;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2><i class="fas fa-shield-alt"></i> Süper Admin</h2>
+            <p>Sistem Yönetici Girişi</p>
+        </div>
+        
+        <div class="login-body">
+            <div class="superadmin-info">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Bu alan sadece sistem yöneticileri içindir.</p>
+            </div>
+            
+            @using (Html.BeginForm("SuperAdminLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form" }))
+            {
+                @Html.AntiForgeryToken()
+                
+                @Html.ValidationSummary(true, "", new { @class = "alert" })
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @placeholder = "superadmin@system.com" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Şifrenizi girin" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="remember-me">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe, "Beni hatırla")
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Süper Admin Girişi
+                </button>
+            }
+            
+            <div class="back-link">
+                <a href="@Url.Action("Login", "Account")">
+                    <i class="fas fa-arrow-left"></i> Anaokulu Girişine Dön
+                </a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <small style="color: #666;">
+                    <i class="fas fa-info-circle"></i>
+                    Varsayılan: superadmin@system.com / superadmin123
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Focus first input
+            $('input[type="email"]').focus();
+            
+            // Auto-fill demo credentials (remove in production)
+            if (window.location.search.includes('demo=1')) {
+                $('input[type="email"]').val('superadmin@system.com');
+                $('input[type="password"]').val('superadmin123');
+            }
+        });
+    </script>
+}

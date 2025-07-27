@@ -54,7 +54,10 @@ start.bat
 - **Debug Bilgileri**: `http://localhost:3000/Debug`  
 - **Ana Uygulama**: `http://localhost:3000/?subdomain=ornek`
 
-**ÖNEMLİ NOT**: Localhost'ta ana sayfaya erişmek için mutlaka `?subdomain=ornek` parametresini kullanın. Parametre olmadan erişim denerseniz otomatik olarak doğru URL'ye yönlendirileceksiniz.
+**ÖNEMLİ NOT**: 
+- Localhost'ta ana sayfaya erişmek için mutlaka `?subdomain=ornek` parametresini kullanın
+- Parametre olmadan erişim denerseniz otomatik olarak doğru URL'ye yönlendirileceksiniz
+- İlk çalıştırmada LocalDB veritabanı attach edilir, biraz sürebilir
 
 ### Manuel Çalıştırma:
 ```cmd

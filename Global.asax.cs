@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -13,6 +15,11 @@ namespace KindergartenSystem
     {
         protected void Application_Start()
         {
+            // Set Turkish culture for proper character encoding
+            var turkishCulture = new CultureInfo("tr-TR");
+            Thread.CurrentThread.CurrentCulture = turkishCulture;
+            Thread.CurrentThread.CurrentUICulture = turkishCulture;
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -35,6 +42,18 @@ namespace KindergartenSystem
             {
                 System.Diagnostics.Debug.WriteLine($"❌ Database connection failed: {ex.Message}");
             }
+        }
+
+        protected void Application_BeginRequest(Object sender, EventArgs e)
+        {
+            // Set Turkish culture for each request to ensure proper character encoding
+            var turkishCulture = new CultureInfo("tr-TR");
+            Thread.CurrentThread.CurrentCulture = turkishCulture;
+            Thread.CurrentThread.CurrentUICulture = turkishCulture;
+            
+            // Set response encoding to UTF-8
+            Response.ContentEncoding = System.Text.Encoding.UTF8;
+            Response.HeaderEncoding = System.Text.Encoding.UTF8;
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)

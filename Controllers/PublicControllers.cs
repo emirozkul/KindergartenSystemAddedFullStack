@@ -308,11 +308,36 @@ namespace KindergartenSystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl, int? kindergartenId)
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            // Determine kindergarten from subdomain
+            // Check if this is admin login request
+            var isAdminLogin = Request.Url.AbsolutePath.Contains("/admin") || Request.QueryString["admin"] == "1";
+            
+            if (isAdminLogin)
+            {
+                // If kindergarten is selected, show login form
+                if (kindergartenId.HasValue)
+                {
+                    var selectedKindergarten = _context.Kindergartens.Find(kindergartenId.Value);
+                    if (selectedKindergarten != null && selectedKindergarten.IsActive)
+                    {
+                        ViewBag.KindergartenId = selectedKindergarten.Id;
+                        ViewBag.KindergartenName = selectedKindergarten.Name;
+                        ViewBag.IsAdminLogin = true;
+                        return View();
+                    }
+                }
+                
+                // For admin login without kindergarten selection, show kindergarten selection
+                var kindergartens = _context.Kindergartens.Where(k => k.IsActive).ToList();
+                ViewBag.Kindergartens = new SelectList(kindergartens, "Id", "Name");
+                ViewBag.IsAdminLogin = true;
+                return View("SelectKindergarten");
+            }
+
+            // For public login, determine kindergarten from subdomain
             var subdomain = GetSubdomain();
             Kindergarten kindergarten = null;
 
@@ -322,15 +347,15 @@ namespace KindergartenSystem.Controllers
                     .FirstOrDefault(k => k.Subdomain == subdomain && k.IsActive);
             }
 
-            if (kindergarten == null && subdomain != "admin")
+            if (kindergarten == null)
             {
-                // If no kindergarten found and not admin subdomain, show selection
+                // If no kindergarten found, show selection
                 ViewBag.Kindergartens = new SelectList(_context.Kindergartens.Where(k => k.IsActive).ToList(), "Id", "Name");
                 return View("SelectKindergarten");
             }
 
-            ViewBag.KindergartenId = kindergarten?.Id ?? 1; // 1 is system admin
-            ViewBag.KindergartenName = kindergarten?.Name ?? "System Admin";
+            ViewBag.KindergartenId = kindergarten.Id;
+            ViewBag.KindergartenName = kindergarten.Name;
 
             return View();
         }
@@ -347,6 +372,16 @@ namespace KindergartenSystem.Controllers
                 {
                     _authService.SignIn(user, model.RememberMe);
 
+                    // Check user role and redirect accordingly
+                    if (user.Role == "SuperAdmin")
+                    {
+                        return RedirectToAction("Index", "SuperAdmin");
+                    }
+                    else if (user.Role == "KindergartenAdmin" || user.Role == "Teacher")
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -355,14 +390,51 @@ namespace KindergartenSystem.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("", "Invalid email or password.");
+                ModelState.AddModelError("", "Geçersiz e-posta veya şifre.");
             }
 
             ViewBag.KindergartenId = model.KindergartenId;
             var kindergarten = _context.Kindergartens.Find(model.KindergartenId);
             ViewBag.KindergartenName = kindergarten?.Name ?? "System Admin";
+            ViewBag.IsAdminLogin = Request.Url.AbsolutePath.Contains("/admin") || Request.QueryString["admin"] == "1";
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult SuperAdminLogin(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.IsSuperAdminLogin = true;
+            return View("SuperAdminLogin");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SuperAdminLogin(LoginViewModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                // For SuperAdmin, we don't need kindergarten validation - use null
+                var user = _authService.ValidateUser(model.Email, model.Password, null);
+
+                if (user != null && user.Role == "SuperAdmin")
+                {
+                    _authService.SignIn(user, model.RememberMe);
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "SuperAdmin");
+                }
+
+                ModelState.AddModelError("", "Geçersiz süper admin kimlik bilgileri.");
+            }
+
+            ViewBag.IsSuperAdminLogin = true;
+            return View("SuperAdminLogin", model);
         }
 
         public ActionResult Logout()

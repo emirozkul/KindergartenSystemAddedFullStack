@@ -26,8 +26,21 @@ namespace KindergartenSystem.Data
             
             System.Diagnostics.Debug.WriteLine($"Created kindergarten: {kindergarten.Name} with subdomain: {kindergarten.Subdomain}");
 
-            // Create admin user
+            // Create SuperAdmin user (not tied to any kindergarten)
             var authService = new AuthenticationService(context);
+            var superAdmin = new User
+            {
+                KindergartenId = kindergarten.Id, // SuperAdmin can manage all kindergartens
+                Username = "superadmin",
+                Email = "superadmin@system.com",
+                PasswordHash = authService.HashPassword("SuperAdmin123!"),
+                Role = "SuperAdmin",
+                IsActive = true,
+                CreatedDate = DateTime.Now
+            };
+            context.Users.Add(superAdmin);
+            
+            // Create kindergarten admin user
             var adminUser = new User
             {
                 KindergartenId = kindergarten.Id,
@@ -39,6 +52,19 @@ namespace KindergartenSystem.Data
                 CreatedDate = DateTime.Now
             };
             context.Users.Add(adminUser);
+            
+            // Create teacher user
+            var teacherUser = new User
+            {
+                KindergartenId = kindergarten.Id,
+                Username = "teacher",
+                Email = "teacher@ornek.com",
+                PasswordHash = authService.HashPassword("teacher123"),
+                Role = "Teacher",
+                IsActive = true,
+                CreatedDate = DateTime.Now
+            };
+            context.Users.Add(teacherUser);
 
             // Create general settings
             var settings = new GeneralSettings

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/Content/css/style.css">
     <link rel="website icon" type="png" href="@(ViewBag.Settings?.LogoPath ?? "/Content/images/logo2.png")">
+    @RenderSection("head", required: false)
 </head>
 <body>
     <nav class="navbar navbar-expand-lg fixed-top">

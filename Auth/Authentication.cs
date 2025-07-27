@@ -79,7 +79,7 @@ namespace KindergartenSystem.Auth
     // Authentication Service
     public interface IAuthenticationService
     {
-        User ValidateUser(string email, string password, int kindergartenId);
+        User ValidateUser(string email, string password, int? kindergartenId);
         void SignIn(User user, bool rememberMe);
         void SignOut();
         string HashPassword(string password);
@@ -95,13 +95,24 @@ namespace KindergartenSystem.Auth
             _context = context;
         }
 
-        public User ValidateUser(string email, string password, int kindergartenId)
+        public User ValidateUser(string email, string password, int? kindergartenId)
         {
-            var user = _context.Users
+            var query = _context.Users
                 .Include("Kindergarten")
-                .FirstOrDefault(u => u.Email == email &&
-                               u.KindergartenId == kindergartenId &&
-                               u.IsActive);
+                .Where(u => u.Email == email && u.IsActive);
+
+            // For SuperAdmin login, kindergartenId can be null
+            if (kindergartenId.HasValue)
+            {
+                query = query.Where(u => u.KindergartenId == kindergartenId.Value);
+            }
+            else
+            {
+                // For SuperAdmin, accept users with Role = "SuperAdmin" regardless of kindergarten
+                query = query.Where(u => u.Role == "SuperAdmin");
+            }
+
+            var user = query.FirstOrDefault();
 
             if (user != null && VerifyPassword(password, user.PasswordHash))
             {
@@ -115,12 +126,12 @@ namespace KindergartenSystem.Auth
         {
             var userData = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}",
                 user.Id,
-                user.KindergartenId,
+                user.KindergartenId ?? 0,
                 user.Username,
                 user.Email,
                 user.Role,
-                user.Kindergarten.Name,
-                user.Kindergarten.Subdomain);
+                user.Kindergarten?.Name ?? "System",
+                user.Kindergarten?.Subdomain ?? "system");
 
             var ticket = new FormsAuthenticationTicket(
                 1,

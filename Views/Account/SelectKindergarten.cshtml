@@ -1,0 +1,212 @@
+@{
+    ViewBag.Title = "Anaokulu Seçin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head {
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .select-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .select-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        max-width: 500px;
+        width: 100%;
+        margin-top: 80px;
+    }
+    
+    .select-header {
+        background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    
+    .select-header h2 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .select-header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+    
+    .select-body {
+        padding: 40px 30px;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 15px;
+        display: block;
+        font-size: 16px;
+    }
+    
+    .kindergarten-option {
+        background: #f8f9fa;
+        border: 2px solid #e1e8ed;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .kindergarten-option:hover {
+        border-color: #667eea;
+        background: #f0f2ff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .kindergarten-name {
+        font-weight: 600;
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .kindergarten-subdomain {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .kindergarten-icon {
+        color: #667eea;
+        font-size: 24px;
+        float: right;
+        margin-top: 5px;
+    }
+    
+    .info-box {
+        background: #e8f4fd;
+        border: 1px solid #bee5eb;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    
+    .info-box i {
+        color: #0c5460;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .info-box p {
+        margin: 0;
+        color: #0c5460;
+        font-size: 14px;
+    }
+    
+    .navbar, .footer {
+        display: none !important;
+    }
+    
+    .no-kindergartens {
+        text-align: center;
+        padding: 40px 20px;
+        color: #666;
+    }
+    
+    .no-kindergartens i {
+        font-size: 48px;
+        color: #ddd;
+        margin-bottom: 20px;
+    }
+    
+    .no-kindergartens h3 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="select-container">
+    <div class="select-card">
+        <div class="select-header">
+            <h2><i class="fas fa-school"></i> Anaokulu Seçin</h2>
+            <p>Giriş yapmak istediğiniz anaokulunu seçin</p>
+        </div>
+        
+        <div class="select-body">
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <p>Admin paneline erişim için anaokulunuzu seçin ve giriş yapın.</p>
+            </div>
+            
+            @if (ViewBag.Kindergartens != null && ((IEnumerable<SelectListItem>)ViewBag.Kindergartens).Any())
+            {
+                <div class="form-group">
+                    <label class="form-label">Mevcut Anaokulları:</label>
+                    
+                    @foreach (var kindergarten in (IEnumerable<SelectListItem>)ViewBag.Kindergartens)
+                    {
+                        <a href="@Url.Action("Login", "Account", new { kindergartenId = kindergarten.Value, admin = "1", returnUrl = ViewBag.ReturnUrl })" class="kindergarten-option">
+                            <div class="kindergarten-name">
+                                @kindergarten.Text
+                                <i class="fas fa-arrow-right kindergarten-icon"></i>
+                            </div>
+                            <div class="kindergarten-subdomain">
+                                <i class="fas fa-school"></i> Admin Girişi
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="no-kindergartens">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Anaokulu Bulunamadı</h3>
+                    <p>Sistemde aktif anaokulu bulunmuyor. Lütfen sistem yöneticisi ile iletişime geçin.</p>
+                </div>
+            }
+            
+            <!-- SuperAdmin Login Button -->
+            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee;">
+                <a href="@Url.Action("SuperAdminLogin", "Account", new { returnUrl = ViewBag.ReturnUrl })" class="btn btn-outline-danger btn-lg">
+                    <i class="fas fa-user-shield mr-2"></i>Süper Admin Girişi
+                </a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <small style="color: #666;">
+                    <i class="fas fa-question-circle"></i>
+                    Sorun mu yaşıyorsunuz? Sistem yöneticisi ile iletişime geçin.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
