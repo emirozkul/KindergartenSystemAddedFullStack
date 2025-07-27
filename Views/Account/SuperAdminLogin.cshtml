@@ -1,6 +1,6 @@
 @model KindergartenSystem.ViewModels.LoginViewModel
 @{
-    ViewBag.Title = "Süper Admin Girişi";
+    ViewBag.Title = "SuperAdmin Giriş";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
 
 <style>
     body {
-        background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         font-family: 'Poppins', sans-serif;
     }
@@ -27,7 +27,7 @@
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         max-width: 400px;
         width: 100%;
@@ -35,7 +35,7 @@
     }
     
     .login-header {
-        background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         color: white;
         padding: 40px 30px;
         text-align: center;
@@ -85,7 +85,7 @@
     }
     
     .btn-login {
-        background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         border: none;
         border-radius: 10px;
         color: white;
@@ -125,43 +125,22 @@
     }
     
     .superadmin-info {
-        background: #fff3cd;
-        border: 1px solid #ffeaa7;
+        background: #f8d7da;
+        border: 1px solid #f5c2c7;
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 25px;
         text-align: center;
     }
     
-    .superadmin-info i {
-        color: #856404;
-        font-size: 24px;
-        margin-bottom: 10px;
+    .superadmin-info h5 {
+        margin: 0 0 5px 0;
+        color: #721c24;
+        font-weight: 600;
     }
     
-    .superadmin-info p {
-        margin: 0;
-        color: #856404;
-        font-size: 14px;
-        font-weight: 500;
-    }
-    
-    .back-link {
-        text-align: center;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
-    }
-    
-    .back-link a {
-        color: #6c757d;
-        text-decoration: none;
-        font-size: 14px;
-    }
-    
-    .back-link a:hover {
-        color: #dc3545;
-        text-decoration: underline;
+    .superadmin-info small {
+        color: #721c24;
     }
     
     .navbar, .footer {
@@ -172,14 +151,14 @@
 <div class="login-container">
     <div class="login-card">
         <div class="login-header">
-            <h2><i class="fas fa-shield-alt"></i> Süper Admin</h2>
-            <p>Sistem Yönetici Girişi</p>
+            <h2><i class="fas fa-crown"></i> SuperAdmin Panel</h2>
+            <p>Sistem Yöneticisi Girişi</p>
         </div>
         
         <div class="login-body">
             <div class="superadmin-info">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>Bu alan sadece sistem yöneticileri içindir.</p>
+                <h5><i class="fas fa-shield-alt"></i> Süper Yönetici</h5>
+                <small>Tüm sistemi yönetme yetkisi</small>
             </div>
             
             @using (Html.BeginForm("SuperAdminLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form" }))
@@ -189,14 +168,14 @@
                 @Html.ValidationSummary(true, "", new { @class = "alert" })
                 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                    @Html.LabelFor(m => m.Email, "E-posta Adresi", new { @class = "form-label" })
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @placeholder = "superadmin@system.com" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
                 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Şifrenizi girin" })
+                    @Html.LabelFor(m => m.Password, "Şifre", new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "SuperAdmin şifrenizi girin" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
                 
@@ -206,21 +185,21 @@
                 </div>
                 
                 <button type="submit" class="btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Süper Admin Girişi
+                    <i class="fas fa-sign-in-alt"></i> SuperAdmin Giriş
                 </button>
             }
             
-            <div class="back-link">
-                <a href="@Url.Action("Login", "Account")">
-                    <i class="fas fa-arrow-left"></i> Anaokulu Girişine Dön
-                </a>
+            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <small style="color: #666;">
+                    <i class="fas fa-info-circle"></i>
+                    Varsayılan: superadmin@system.com / SuperAdmin123!
+                </small>
             </div>
             
             <div style="text-align: center; margin-top: 15px;">
-                <small style="color: #666;">
-                    <i class="fas fa-info-circle"></i>
-                    Varsayılan: superadmin@system.com / superadmin123
-                </small>
+                <a href="@Url.Action("Login", "Account")" class="text-muted" style="text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i> Normal Admin Girişi
+                </a>
             </div>
         </div>
     </div>
@@ -237,7 +216,7 @@
             // Auto-fill demo credentials (remove in production)
             if (window.location.search.includes('demo=1')) {
                 $('input[type="email"]').val('superadmin@system.com');
-                $('input[type="password"]').val('superadmin123');
+                $('input[type="password"]').val('SuperAdmin123!');
             }
         });
     </script>
