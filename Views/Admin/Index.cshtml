@@ -96,7 +96,7 @@
                 <div class="card-body">
                     @if (Model.RecentContactSubmissions != null && Model.RecentContactSubmissions.Any())
                     {
-                        @foreach (var contact in Model.RecentContactSubmissions)
+                        foreach (var contact in Model.RecentContactSubmissions)
                         {
                             <div class="media mb-3">
                                 <div class="media-body">
@@ -126,7 +126,7 @@
                 <div class="card-body">
                     @if (Model.RecentAnnouncements != null && Model.RecentAnnouncements.Any())
                     {
-                        @foreach (var announcement in Model.RecentAnnouncements)
+                        foreach (var announcement in Model.RecentAnnouncements)
                         {
                             <div class="media mb-3">
                                 <div class="media-body">

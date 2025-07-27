@@ -6,86 +6,78 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <h2>SuperAdmin Dashboard</h2>
-            <p class="text-muted">Manage all kindergartens and users in the system</p>
+        <div class="col-12">
+            <h1 class="h3 mb-4">
+                <i class="fas fa-crown text-warning"></i>
+                SuperAdmin Dashboard
+            </h1>
         </div>
     </div>
 
     <!-- Statistics Cards -->
     <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Total Kindergartens</h5>
-                            <h3>@Model.TotalKindergartens</h3>
-                            <small>@Model.ActiveKindergartens active</small>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Toplam Anaokulu</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalKindergartens</div>
                         </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-school fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a href="@Url.Action("Kindergartens")" class="text-white">
-                        <small>Manage kindergartens <i class="fas fa-arrow-right"></i></small>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Total Users</h5>
-                            <h3>@Model.TotalUsers</h3>
-                            <small>@Model.ActiveUsers active</small>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a href="@Url.Action("Users")" class="text-white">
-                        <small>Manage users <i class="fas fa-arrow-right"></i></small>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">System Health</h5>
-                            <h3><i class="fas fa-check-circle"></i></h3>
-                            <small>All systems operational</small>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-heartbeat fa-2x"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-school fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Database Status</h5>
-                            <h3><i class="fas fa-database"></i></h3>
-                            <small>Connected</small>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Aktif Anaokulu</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ActiveKindergartens</div>
                         </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-server fa-2x"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Toplam Kullanýcý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalUsers</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Aktif Kullanýcý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.ActiveUsers</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-check fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -93,159 +85,117 @@
         </div>
     </div>
 
-    <!-- Recent Activity -->
+    <!-- Content Row -->
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fas fa-school mr-2"></i>Recent Kindergartens</h5>
+        <!-- Recent Kindergartens -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Son Eklenen Anaokullarý</h6>
                 </div>
                 <div class="card-body">
                     @if (Model.RecentKindergartens != null && Model.RecentKindergartens.Any())
                     {
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Subdomain</th>
-                                        <th>Status</th>
-                                        <th>Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var kindergarten in Model.RecentKindergartens)
-                                    {
-                                        <tr>
-                                            <td>@kindergarten.Name</td>
-                                            <td>
-                                                <code>@kindergarten.Subdomain</code>
-                                            </td>
-                                            <td>
-                                                @if (kindergarten.IsActive)
-                                                {
-                                                    <span class="badge badge-success">Active</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge badge-danger">Inactive</span>
-                                                }
-                                            </td>
-                                            <td>@kindergarten.CreatedDate.ToString("dd.MM.yyyy")</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <a href="@Url.Action("Kindergartens")" class="btn btn-primary btn-sm">View All Kindergartens</a>
-                        </div>
+                        foreach (var kindergarten in Model.RecentKindergartens)
+                        {
+                            <div class="media mb-3">
+                                <div class="media-body">
+                                    <h6 class="mt-0">@kindergarten.Name</h6>
+                                    <small class="text-muted">Subdomain: @kindergarten.Subdomain</small>
+                                    <p class="mb-1">
+                                        <span class="badge @(kindergarten.IsActive ? "bg-success" : "bg-danger")">
+                                            @(kindergarten.IsActive ? "Aktif" : "Pasif")
+                                        </span>
+                                    </p>
+                                    <small class="text-muted">Oluþturulma: @kindergarten.CreatedDate.ToString("dd.MM.yyyy")</small>
+                                </div>
+                            </div>
+                            <hr />
+                        }
                     }
                     else
                     {
-                        <p class="text-muted text-center">No kindergartens found</p>
+                        <p class="text-muted">Henüz anaokulu eklenmemiþ.</p>
                     }
+                    <div class="text-center mt-3">
+                        <a href="@Url.Action("Kindergartens", "SuperAdmin")" class="btn btn-primary btn-sm">
+                            <i class="fas fa-school me-2"></i>Tüm Anaokullarý Gör
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fas fa-users mr-2"></i>Recent Users</h5>
+        <!-- Recent Users -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Son Eklenen Kullanýcýlar</h6>
                 </div>
                 <div class="card-body">
                     @if (Model.RecentUsers != null && Model.RecentUsers.Any())
                     {
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Username</th>
-                                        <th>Role</th>
-                                        <th>Kindergarten</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var user in Model.RecentUsers)
-                                    {
-                                        <tr>
-                                            <td>@user.Username</td>
-                                            <td>
-                                                @if (user.Role == "SuperAdmin")
-                                                {
-                                                    <span class="badge badge-danger">@user.Role</span>
-                                                }
-                                                else if (user.Role == "KindergartenAdmin")
-                                                {
-                                                    <span class="badge badge-primary">Admin</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge badge-secondary">@user.Role</span>
-                                                }
-                                            </td>
-                                            <td>@(user.Kindergarten?.Name ?? "N/A")</td>
-                                            <td>
-                                                @if (user.IsActive)
-                                                {
-                                                    <span class="badge badge-success">Active</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge badge-danger">Inactive</span>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <a href="@Url.Action("Users")" class="btn btn-primary btn-sm">View All Users</a>
-                        </div>
+                        foreach (var user in Model.RecentUsers)
+                        {
+                            <div class="media mb-3">
+                                <div class="media-body">
+                                    <h6 class="mt-0">@user.Username</h6>
+                                    <small class="text-muted">@user.Email</small>
+                                    <p class="mb-1">
+                                        <span class="badge bg-info">@user.Role</span>
+                                        <span class="badge @(user.IsActive ? "bg-success" : "bg-danger")">
+                                            @(user.IsActive ? "Aktif" : "Pasif")
+                                        </span>
+                                    </p>
+                                    <small class="text-muted">
+                                        Anaokulu: @(user.Kindergarten?.Name ?? "System")
+                                    </small>
+                                </div>
+                            </div>
+                            <hr />
+                        }
                     }
                     else
                     {
-                        <p class="text-muted text-center">No users found</p>
+                        <p class="text-muted">Henüz kullanýcý eklenmemiþ.</p>
                     }
+                    <div class="text-center mt-3">
+                        <a href="@Url.Action("Users", "SuperAdmin")" class="btn btn-primary btn-sm">
+                            <i class="fas fa-users me-2"></i>Tüm Kullanýcýlarý Gör
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Quick Actions -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fas fa-plus mr-2"></i>Quick Actions</h5>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Hýzlý Ýþlemler</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <a href="@Url.Action("CreateKindergarten")" class="btn btn-outline-primary btn-block">
-                                <i class="fas fa-school"></i><br />
-                                Add Kindergarten
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("CreateKindergarten", "SuperAdmin")" class="btn btn-success btn-block">
+                                <i class="fas fa-plus"></i> Yeni Anaokulu
                             </a>
                         </div>
-                        <div class="col-md-3">
-                            <a href="@Url.Action("CreateUser")" class="btn btn-outline-success btn-block">
-                                <i class="fas fa-user-plus"></i><br />
-                                Add User
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("CreateUser", "SuperAdmin")" class="btn btn-info btn-block">
+                                <i class="fas fa-user-plus"></i> Yeni Kullanýcý
                             </a>
                         </div>
-                        <div class="col-md-3">
-                            <a href="@Url.Action("Kindergartens")" class="btn btn-outline-info btn-block">
-                                <i class="fas fa-list"></i><br />
-                                Manage Kindergartens
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Kindergartens", "SuperAdmin")" class="btn btn-primary btn-block">
+                                <i class="fas fa-school"></i> Anaokullarý Yönet
                             </a>
                         </div>
-                        <div class="col-md-3">
-                            <a href="@Url.Action("Users")" class="btn btn-outline-warning btn-block">
-                                <i class="fas fa-users-cog"></i><br />
-                                Manage Users
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Users", "SuperAdmin")" class="btn btn-warning btn-block">
+                                <i class="fas fa-users-cog"></i> Kullanýcýlarý Yönet
                             </a>
                         </div>
                     </div>
