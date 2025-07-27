@@ -68,23 +68,23 @@ namespace KindergartenSystem.Data
             };
             context.Users.Add(teacherUser);
 
-            // Create general settings
+            // Create general settings with proper Turkish characters
             var settings = new GeneralSettings
             {
                 KindergartenId = kindergarten.Id,
                 LogoPath = "/Content/images/logo.png",
                 Slogan = "Çocuklarınızın mutlu geleceği için...",
                 SubSlogan = "Güvenli, eğlenceli ve öğretici ortamda büyüyorlar",
-                Address = "Örnek Mahallesi, Kreş Sokak No:1 İstanbul",
+                Address = "Örnek Mahallesi, Kreş Sokağı No:1 İstanbul",
                 Phone = "0212 555 01 01",
                 Email = "info@ornekkreş.com",
-                FacebookUrl = "https://facebook.com/ornekkreş",
-                InstagramUrl = "https://instagram.com/ornekkreş",
+                FacebookUrl = "https://facebook.com/ornekkreș",
+                InstagramUrl = "https://instagram.com/ornekkreș",
                 UpdatedDate = DateTime.Now
             };
             context.GeneralSettings.Add(settings);
 
-            // Create mission vision
+            // Create mission vision with proper Turkish characters
             var missionVision = new MissionVision
             {
                 KindergartenId = kindergarten.Id,

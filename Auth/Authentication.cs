@@ -97,29 +97,60 @@ namespace KindergartenSystem.Auth
 
         public User ValidateUser(string email, string password, int? kindergartenId)
         {
-            var query = _context.Users
-                .Include("Kindergarten")
-                .Where(u => u.Email == email && u.IsActive);
-
-            // For SuperAdmin login, kindergartenId can be null
-            if (kindergartenId.HasValue)
+            try
             {
-                query = query.Where(u => u.KindergartenId == kindergartenId.Value);
+                System.Diagnostics.Debug.WriteLine($"ValidateUser called: email={email}, kindergartenId={kindergartenId}");
+                
+                var query = _context.Users
+                    .Include("Kindergarten")
+                    .Where(u => u.Email == email && u.IsActive);
+
+                // For SuperAdmin login, kindergartenId can be null
+                if (kindergartenId.HasValue)
+                {
+                    query = query.Where(u => u.KindergartenId == kindergartenId.Value);
+                }
+                else
+                {
+                    // For SuperAdmin, accept users with Role = "SuperAdmin" and null KindergartenId
+                    query = query.Where(u => u.Role == "SuperAdmin" && u.KindergartenId == null);
+                }
+
+                var user = query.FirstOrDefault();
+                
+                System.Diagnostics.Debug.WriteLine($"User found: {user != null}");
+                if (user != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"User details: Email={user.Email}, Role={user.Role}, KindergartenId={user.KindergartenId}, Active={user.IsActive}");
+                    
+                    var passwordValid = VerifyPassword(password, user.PasswordHash);
+                    System.Diagnostics.Debug.WriteLine($"Password valid: {passwordValid}");
+                    
+                    if (passwordValid)
+                    {
+                        return user;
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("No user found matching criteria");
+                    
+                    // Debug: Show all SuperAdmin users in database
+                    var allSuperAdmins = _context.Users.Where(u => u.Role == "SuperAdmin").ToList();
+                    System.Diagnostics.Debug.WriteLine($"All SuperAdmin users in database: {allSuperAdmins.Count}");
+                    foreach (var sa in allSuperAdmins)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"  - Email: {sa.Email}, KindergartenId: {sa.KindergartenId}, Active: {sa.IsActive}");
+                    }
+                }
+
+                return null;
             }
-            else
+            catch (Exception ex)
             {
-                // For SuperAdmin, accept users with Role = "SuperAdmin" regardless of kindergarten
-                query = query.Where(u => u.Role == "SuperAdmin");
+                System.Diagnostics.Debug.WriteLine($"ValidateUser error: {ex.Message}");
+                return null;
             }
-
-            var user = query.FirstOrDefault();
-
-            if (user != null && VerifyPassword(password, user.PasswordHash))
-            {
-                return user;
-            }
-
-            return null;
         }
 
         public void SignIn(User user, bool rememberMe)
