@@ -180,7 +180,7 @@ namespace KindergartenSystem.Controllers
         public ActionResult CreateUser()
         {
             ViewBag.Kindergartens = new SelectList(Context.Kindergartens.Where(k => k.IsActive), "Id", "Name");
-            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KindergartenAdmin", "Teacher" });
+            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KreşAdmin", "Admin" });
             return View();
         }
 
@@ -196,7 +196,7 @@ namespace KindergartenSystem.Controllers
                 {
                     ModelState.AddModelError("Email", "This email is already registered.");
                     ViewBag.Kindergartens = new SelectList(Context.Kindergartens.Where(k => k.IsActive), "Id", "Name", model.KindergartenId);
-                    ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KindergartenAdmin", "Teacher" }, model.Role);
+                    ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KreşAdmin", "Admin" }, model.Role);
                     return View(model);
                 }
 
@@ -220,7 +220,7 @@ namespace KindergartenSystem.Controllers
             }
 
             ViewBag.Kindergartens = new SelectList(Context.Kindergartens.Where(k => k.IsActive), "Id", "Name", model.KindergartenId);
-            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KindergartenAdmin", "Teacher" }, model.Role);
+            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KreşAdmin", "Admin" }, model.Role);
             return View(model);
         }
 
@@ -248,7 +248,7 @@ namespace KindergartenSystem.Controllers
             };
 
             ViewBag.Kindergartens = new SelectList(Context.Kindergartens.Where(k => k.IsActive), "Id", "Name", user.KindergartenId);
-            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KindergartenAdmin", "Teacher" }, user.Role);
+            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KreşAdmin", "Admin" }, user.Role);
 
             return View(model);
         }
@@ -268,7 +268,7 @@ namespace KindergartenSystem.Controllers
                     {
                         ModelState.AddModelError("Email", "This email is already registered.");
                         ViewBag.Kindergartens = new SelectList(Context.Kindergartens.Where(k => k.IsActive), "Id", "Name", model.KindergartenId);
-                        ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KindergartenAdmin", "Teacher" }, model.Role);
+                        ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KreşAdmin", "Admin" }, model.Role);
                         return View(model);
                     }
 
@@ -292,7 +292,7 @@ namespace KindergartenSystem.Controllers
             }
 
             ViewBag.Kindergartens = new SelectList(Context.Kindergartens.Where(k => k.IsActive), "Id", "Name", model.KindergartenId);
-            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KindergartenAdmin", "Teacher" }, model.Role);
+            ViewBag.Roles = new SelectList(new[] { "SuperAdmin", "KreşAdmin", "Admin" }, model.Role);
             return View(model);
         }
 

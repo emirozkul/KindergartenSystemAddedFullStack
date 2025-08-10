@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
 namespace KindergartenSystem.Models
 {
@@ -57,7 +58,7 @@ namespace KindergartenSystem.Models
 
         [Required]
         [MaxLength(50)]
-        public string Role { get; set; } // SuperAdmin, KindergartenAdmin, Teacher
+        public string Role { get; set; } // SuperAdmin, KreşAdmin, Admin
 
         public bool IsActive { get; set; } = true;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
@@ -151,9 +152,6 @@ namespace KindergartenSystem.Models
         [Required]
         public int KindergartenId { get; set; }
 
-        [MaxLength(100)]
-        public string Icon { get; set; } // Font Awesome class
-
         [Required]
         [MaxLength(200)]
         public string Title { get; set; }
@@ -177,8 +175,12 @@ namespace KindergartenSystem.Models
         public int KindergartenId { get; set; }
 
         [Required]
-        [MaxLength(200)]
-        public string ParentName { get; set; }
+        [MaxLength(100)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string LastName { get; set; }
 
         [MaxLength(500)]
         public string ParentPhoto { get; set; }

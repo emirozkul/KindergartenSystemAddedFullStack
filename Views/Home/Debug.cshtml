@@ -1,0 +1,35 @@
+@{
+    ViewBag.Title = "Debug Info";
+}
+
+<h2>Debug Information</h2>
+
+<div>
+    <p><strong>Debug Info:</strong> @ViewBag.DebugInfo</p>
+    <p><strong>Request URL:</strong> @Request.Url</p>
+    <p><strong>Host:</strong> @Request.Url.Host</p>
+    <p><strong>Query String:</strong> @Request.QueryString</p>
+</div>
+
+<h3>Available Kindergartens:</h3>
+@{
+    var context = new KindergartenSystem.Data.KindergartenContext();
+    var kindergartens = context.Kindergartens.ToList();
+}
+
+@if (kindergartens.Any())
+{
+    <ul>
+        @foreach (var k in kindergartens)
+        {
+            <li>
+                <strong>@k.Name</strong> - Subdomain: @k.Subdomain 
+                <a href="?subdomain=@k.Subdomain">Test Link</a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No kindergartens found in database.</p>
+}

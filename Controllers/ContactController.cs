@@ -104,7 +104,7 @@ namespace KindergartenSystem.Controllers
     }
 
     // Admin contact management
-    [KindergartenAuthorize("SuperAdmin", "KindergartenAdmin")]
+    [KindergartenAuthorize("SuperAdmin", "KreşAdmin")]
     public class MessagesController : AdminBaseController
     {
         public ActionResult Index()

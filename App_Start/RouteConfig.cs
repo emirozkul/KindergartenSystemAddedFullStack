@@ -17,13 +17,13 @@ namespace KindergartenSystem
             routes.MapRoute(
                 name: "SuperAdminLogin",
                 url: "admin/superadmin-login",
-                defaults: new { controller = "Account", action = "SuperAdminLogin" }
+                defaults: new { controller = "SuperAdmin", action = "Login" }
             );
 
             routes.MapRoute(
                 name: "AdminLogin",
                 url: "admin/login",
-                defaults: new { controller = "Account", action = "Login", admin = "1" }
+                defaults: new { controller = "Admin", action = "Login" }
             );
 
             routes.MapRoute(

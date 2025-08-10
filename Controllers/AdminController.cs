@@ -10,7 +10,7 @@ using KindergartenSystem.ViewModels;
 
 namespace KindergartenSystem.Controllers
 {
-    [KindergartenAuthorize("SuperAdmin", "KindergartenAdmin")]
+    [KindergartenAuthorize("SuperAdmin", "KreşAdmin")]
     public class AdminController : AdminBaseController
     {
         public ActionResult Index()

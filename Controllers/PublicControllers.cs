@@ -28,8 +28,20 @@ namespace KindergartenSystem.Controllers
 
         public ActionResult Index()
         {
+            // Debug: Show what's happening
+            ViewBag.DebugInfo = $"Host: {Request.Url.Host}, Subdomain: {GetSubdomain()}, CurrentKindergarten: {(CurrentKindergarten?.Name ?? "NULL")}";
+            
             if (CurrentKindergarten == null)
-                return HttpNotFound();
+            {
+                // For development, try to get first available kindergarten
+                var firstKindergarten = Context.Kindergartens.FirstOrDefault(k => k.IsActive);
+                if (firstKindergarten != null)
+                {
+                    var redirectUrl = $"{Request.Url.Scheme}://{Request.Url.Authority}?subdomain={firstKindergarten.Subdomain}";
+                    return Redirect(redirectUrl);
+                }
+                return Content($"No kindergarten found. Host: {Request.Url.Host}. Available kindergartens: {string.Join(", ", Context.Kindergartens.Select(k => k.Subdomain))}");
+            }
 
             var viewModel = new HomeViewModel
             {
@@ -39,14 +51,16 @@ namespace KindergartenSystem.Controllers
                     .Where(p => p.KindergartenId == CurrentKindergarten.Id && p.IsActive)
                     .OrderBy(p => p.DisplayOrder)
                     .ToList(),
-                Testimonials = Context.ParentTestimonials
-                    .Where(t => t.KindergartenId == CurrentKindergarten.Id && t.IsActive)
-                    .OrderByDescending(t => t.CreatedDate)
-                    .Take(6)
-                    .ToList()
+                Testimonials = new List<ParentTestimonial>()
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult Debug()
+        {
+            ViewBag.DebugInfo = $"Host: {Request.Url.Host}, Subdomain: {GetSubdomain()}, CurrentKindergarten: {(CurrentKindergarten?.Name ?? "NULL")}";
+            return View();
         }
 
         public ActionResult About()
@@ -377,7 +391,7 @@ namespace KindergartenSystem.Controllers
                     {
                         return RedirectToAction("Index", "SuperAdmin");
                     }
-                    else if (user.Role == "KindergartenAdmin" || user.Role == "Teacher")
+                    else if (user.Role == "KreşAdmin" || user.Role == "Admin")
                     {
                         return RedirectToAction("Index", "Admin");
                     }

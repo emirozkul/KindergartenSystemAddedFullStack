@@ -5,9 +5,150 @@ using System.Configuration;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace KindergartenSystem.Services
 {
+    public interface IImageService
+    {
+        string SaveImage(HttpPostedFileBase file, int kindergartenId, string folder, int maxWidth = 1200, int maxHeight = 800);
+        string SaveIcon(HttpPostedFileBase file, int kindergartenId, string folder, int size = 64);
+        bool DeleteImage(string path);
+    }
+
+    public class ImageService : IImageService
+    {
+        public string SaveImage(HttpPostedFileBase file, int kindergartenId, string folder, int maxWidth = 1200, int maxHeight = 800)
+        {
+            if (file == null || file.ContentLength == 0)
+                return null;
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var uploadDir = HttpContext.Current.Server.MapPath($"~/Content/uploads/{kindergartenId}/{folder}/");
+            
+            if (!Directory.Exists(uploadDir))
+                Directory.CreateDirectory(uploadDir);
+
+            var filePath = Path.Combine(uploadDir, fileName);
+
+            // Resize and save image
+            using (var image = Image.FromStream(file.InputStream))
+            {
+                var resized = ResizeImage(image, maxWidth, maxHeight);
+                resized.Save(filePath, GetImageFormat(file.FileName));
+                resized.Dispose();
+            }
+
+            return $"/Content/uploads/{kindergartenId}/{folder}/{fileName}";
+        }
+
+        public string SaveIcon(HttpPostedFileBase file, int kindergartenId, string folder, int size = 64)
+        {
+            if (file == null || file.ContentLength == 0)
+                return null;
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var uploadDir = HttpContext.Current.Server.MapPath($"~/Content/uploads/{kindergartenId}/{folder}/");
+            
+            if (!Directory.Exists(uploadDir))
+                Directory.CreateDirectory(uploadDir);
+
+            var filePath = Path.Combine(uploadDir, fileName);
+
+            // Resize to square icon
+            using (var image = Image.FromStream(file.InputStream))
+            {
+                var icon = ResizeToSquare(image, size);
+                icon.Save(filePath, GetImageFormat(file.FileName));
+                icon.Dispose();
+            }
+
+            return $"/Content/uploads/{kindergartenId}/{folder}/{fileName}";
+        }
+
+        public bool DeleteImage(string path)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var fullPath = HttpContext.Current.Server.MapPath(path);
+                    if (File.Exists(fullPath))
+                    {
+                        File.Delete(fullPath);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private Image ResizeImage(Image image, int maxWidth, int maxHeight)
+        {
+            var ratio = Math.Min((double)maxWidth / image.Width, (double)maxHeight / image.Height);
+            var newWidth = (int)(image.Width * ratio);
+            var newHeight = (int)(image.Height * ratio);
+
+            var newImage = new Bitmap(newWidth, newHeight);
+            using (var graphics = Graphics.FromImage(newImage))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.DrawImage(image, 0, 0, newWidth, newHeight);
+            }
+
+            return newImage;
+        }
+
+        private Image ResizeToSquare(Image image, int size)
+        {
+            var newImage = new Bitmap(size, size);
+            using (var graphics = Graphics.FromImage(newImage))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                
+                // Center crop to square
+                var sourceSize = Math.Min(image.Width, image.Height);
+                var sourceX = (image.Width - sourceSize) / 2;
+                var sourceY = (image.Height - sourceSize) / 2;
+                
+                graphics.DrawImage(image, new Rectangle(0, 0, size, size), 
+                    new Rectangle(sourceX, sourceY, sourceSize, sourceSize), GraphicsUnit.Pixel);
+            }
+
+            return newImage;
+        }
+
+        private ImageFormat GetImageFormat(string fileName)
+        {
+            var extension = Path.GetExtension(fileName).ToLower();
+            switch (extension)
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return ImageFormat.Jpeg;
+                case ".png":
+                    return ImageFormat.Png;
+                case ".gif":
+                    return ImageFormat.Gif;
+                case ".bmp":
+                    return ImageFormat.Bmp;
+                default:
+                    return ImageFormat.Jpeg;
+            }
+        }
+    }
+
     public interface IWhatsAppService
     {
         Task<bool> SendContactFormNotificationAsync(ContactSubmission submission, string kindergartenPhone);

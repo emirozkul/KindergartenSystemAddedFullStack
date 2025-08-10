@@ -1,6 +1,7 @@
 ﻿using KindergartenSystem.Data;
 using KindergartenSystem.Models;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;

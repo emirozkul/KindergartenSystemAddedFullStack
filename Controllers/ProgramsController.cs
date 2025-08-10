@@ -2,13 +2,14 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using KindergartenSystem.Auth;
 using KindergartenSystem.Models;
 
 namespace KindergartenSystem.Controllers
 {
-    [KindergartenAuthorize("SuperAdmin", "KindergartenAdmin")]
+    [KindergartenAuthorize("SuperAdmin", "KreşAdmin")]
     public class ProgramsController : AdminBaseController
     {
         public ActionResult Index()
@@ -46,12 +47,14 @@ namespace KindergartenSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CoreEducationProgram program)
+        public ActionResult Create(CoreEducationProgram program, HttpPostedFileBase iconFile)
         {
             if (ModelState.IsValid)
             {
                 program.KindergartenId = CurrentUser.KindergartenId;
                 program.CreatedDate = DateTime.Now;
+                
+                // Icon upload functionality removed - IconPath column not in database
                 
                 // Set display order to be last
                 var maxOrder = Context.CoreEducationPrograms
@@ -89,7 +92,7 @@ namespace KindergartenSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CoreEducationProgram program)
+        public ActionResult Edit(CoreEducationProgram program, HttpPostedFileBase iconFile)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +101,9 @@ namespace KindergartenSystem.Controllers
 
                 if (existingProgram != null)
                 {
-                    existingProgram.Icon = program.Icon;
+                    // Handle icon upload
+                    // Icon upload functionality removed - IconPath column not in database
+                    
                     existingProgram.Title = program.Title;
                     existingProgram.Description = program.Description;
                     existingProgram.DisplayOrder = program.DisplayOrder;

@@ -93,7 +93,7 @@ namespace KindergartenSystem.Controllers
 
         protected ActionResult RedirectToLogin()
         {
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login", "Admin");
         }
 
         protected bool IsAuthorized(params string[] roles)

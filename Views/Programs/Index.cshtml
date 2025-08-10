@@ -57,10 +57,8 @@
                                                 <span class="badge badge-secondary">@program.DisplayOrder</span>
                                             </td>
                                             <td>
-                                                @if (!string.IsNullOrEmpty(program.Icon))
-                                                {
-                                                    <i class="@program.Icon fa-lg"></i>
-                                                }
+                                                <!-- Program icon - IconPath kolonu veritabanında yok -->
+                                                <i class="fas fa-graduation-cap" style="width: 24px;"></i>
                                             </td>
                                             <td>
                                                 <strong>@program.Title</strong>

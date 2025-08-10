@@ -9,7 +9,7 @@ using KindergartenSystem.Models;
 
 namespace KindergartenSystem.Controllers
 {
-    [KindergartenAuthorize("SuperAdmin", "KindergartenAdmin")]
+    [KindergartenAuthorize("SuperAdmin", "KreşAdmin")]
     public class EventsController : AdminBaseController
     {
         public ActionResult Index()

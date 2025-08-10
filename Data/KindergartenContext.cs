@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
 
 namespace KindergartenSystem.Data
 {
@@ -9,7 +10,7 @@ namespace KindergartenSystem.Data
     {
         public KindergartenContext() : base("KindergartenDB")
         {
-            // Use existing database file from App_Data - disable auto initialization
+            // Disable automatic database initialization to prevent startup issues
             Database.SetInitializer<KindergartenContext>(null);
         }
 
@@ -51,9 +52,13 @@ namespace KindergartenSystem.Data
                 .HasForeignKey(a => a.KindergartenId)
                 .WillCascadeOnDelete(false);
 
-            // Configure other relationships
+            // Configure User-Kindergarten relationship - KindergartenId is nullable for SuperAdmin
             modelBuilder.Entity<User>()
-                .HasRequired(u => u.Kindergarten)
+                .Property(u => u.KindergartenId)
+                .IsOptional(); // Explicitly mark as nullable
+                
+            modelBuilder.Entity<User>()
+                .HasOptional(u => u.Kindergarten)
                 .WithMany(k => k.Users)
                 .HasForeignKey(u => u.KindergartenId)
                 .WillCascadeOnDelete(false);

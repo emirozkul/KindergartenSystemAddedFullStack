@@ -9,7 +9,7 @@ using KindergartenSystem.Models;
 
 namespace KindergartenSystem.Controllers
 {
-    [KindergartenAuthorize("SuperAdmin", "KindergartenAdmin")]
+    [KindergartenAuthorize("SuperAdmin", "KreşAdmin")]
     public class TestimonialsController : AdminBaseController
     {
         public ActionResult Index()
@@ -99,7 +99,8 @@ namespace KindergartenSystem.Controllers
 
                 if (existingTestimonial != null)
                 {
-                    existingTestimonial.ParentName = testimonial.ParentName;
+                    existingTestimonial.FirstName = testimonial.FirstName;
+                    existingTestimonial.LastName = testimonial.LastName;
                     existingTestimonial.Rating = testimonial.Rating;
                     existingTestimonial.Comment = testimonial.Comment;
                     existingTestimonial.IsActive = testimonial.IsActive;

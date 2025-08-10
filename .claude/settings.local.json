@@ -24,7 +24,19 @@
       "Bash(powershell:*)",
       "Bash(mkdir:*)",
       "Bash(dotnet build)",
-      "Bash(msbuild:*)"
+      "Bash(msbuild:*)",
+      "Bash(/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe /t:Clean,Rebuild /p:Configuration=Debug)",
+      "Bash(touch:*)",
+      "Bash(true)",
+      "Bash(xxd:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(/mnt/c/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe /target:library /reference:\"/mnt/c/Windows/Microsoft.NET/Framework64/v4.0.30319/System.Web.dll\" /reference:\"bin/System.Web.Mvc.dll\" /reference:\"bin/EntityFramework.dll\" /reference:\"bin/System.Web.Optimization.dll\" /out:\"bin/KindergartenSystem.dll\" Global.asax.cs)",
+      "Bash(/mnt/c/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe /target:library /reference:\"/mnt/c/Windows/Microsoft.NET/Framework64/v4.0.30319/System.dll\" /reference:\"/mnt/c/Windows/Microsoft.NET/Framework64/v4.0.30319/System.Web.dll\" /out:\"test.dll\" test.cs)",
+      "Bash(mv:*)",
+      "Bash(sqllocaldb stop:*)",
+      "Bash(\"/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" stop MSSQLLocalDB)",
+      "Bash(\"/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" info)",
+      "Bash(\"/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" delete MSSQLLocalDB)"
     ],
     "deny": []
   }

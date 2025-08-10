@@ -71,10 +71,10 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 text-center text-lg-start mb-4 mb-lg-0">
                     <a href="@Url.Action("Index", "Home")">
-                        <img src="@(ViewBag.Settings?.FooterLogoPath ?? ViewBag.Settings?.LogoPath ?? "/Content/images/main-logo.png")"
+                        <img src="@(ViewBag.Settings?.FooterLogoPath ?? ViewBag.Settings?.LogoPath ?? "/Content/images/logo.png")"
                              alt="@ViewBag.CurrentKindergarten?.Name Logo" class="footer-logo mb-3">
                     </a>
-                    <p class="footer-description">@(ViewBag.Settings?.FooterSlogan ?? "Çocuklarınızın geleceği için en iyi başlangıç noktası.")</p>
+                    <p class="footer-description">@(ViewBag.Settings?.FooterSlogan ?? ViewBag.Settings?.Slogan ?? "Çocuklarınızın geleceği için en iyi başlangıç noktası.")</p>
                     <div class="social-links mt-3">
                         @if (!string.IsNullOrEmpty(ViewBag.Settings?.FacebookUrl))
                         {
@@ -135,7 +135,7 @@
 
             <div class="row">
                 <div class="col-12 text-center pt-4 mt-4 border-top-footer">
-                    <p class="mb-0">© @DateTime.Now.Year @ViewBag.CurrentKindergarten?.Name - Tüm hakları saklıdır.</p>
+                    <p class="mb-0">© 2025 MISSoft Dijital Dönüşüm - Tüm Hakları Saklıdır</p>
                 </div>
             </div>
         </div>

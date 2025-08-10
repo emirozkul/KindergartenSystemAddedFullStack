@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section id="home" class="hero-section">
+<section id="home" class="hero-section" @((!string.IsNullOrEmpty(Model?.Settings?.HeroBackgroundPath)) ? Html.Raw("style=\"background-image: url('" + Model.Settings.HeroBackgroundPath + "');\"") : Html.Raw(""))>
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
@@ -33,6 +33,7 @@
         <div class="row g-4">
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="mission-vision-card mission">
+                    <!-- Mission icon - veritabanı kolonları kaldırıldı, sadece FontAwesome icon kullanılıyor -->
                     <i class="fas fa-rocket mv-icon"></i>
                     <h3 class="mv-title">@(Model.MissionVision?.MissionTitle ?? "Misyonumuz")</h3>
                     <p class="mv-text">
@@ -42,6 +43,7 @@
             </div>
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="mission-vision-card vision">
+                    <!-- Vision icon - veritabanı kolonları kaldırıldı, sadece FontAwesome icon kullanılıyor -->
                     <i class="fas fa-eye mv-icon"></i>
                     <h3 class="mv-title">@(Model.MissionVision?.VisionTitle ?? "Vizyonumuz")</h3>
                     <p class="mv-text">
@@ -66,7 +68,8 @@
                 {
                     <div class="swiper-slide">
                         <div class="feature-card">
-                            <i class="@(program.Icon ?? "fas fa-graduation-cap") feature-icon"></i>
+                            <!-- Program icon - IconPath kolonu veritabanında yok, FontAwesome kullanılıyor -->
+                            <i class="fas fa-graduation-cap feature-icon"></i>
                             <h3 class="feature-title">@program.Title</h3>
                             <p class="feature-text">@program.Description</p>
                         </div>
@@ -129,7 +132,7 @@
                     {
                         <div class="swiper-slide">
                             <div class="review-card">
-                                <img src="@(testimonial.ParentPhoto ?? "https://ui-avatars.com/api/?name=" + Uri.EscapeDataString(testimonial.ParentName) + "&background=FF6B6B&color=fff")"
+                                <img src="@(testimonial.ParentPhoto ?? "https://ui-avatars.com/api/?name=" + Uri.EscapeDataString(testimonial.ParentName ?? "Veli") + "&background=FF6B6B&color=fff")"
                                      alt="@testimonial.ParentName" class="parent-image">
                                 <h4 class="parent-name">@testimonial.ParentName</h4>
                                 <div class="rating">
