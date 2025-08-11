@@ -21,7 +21,7 @@
         <h3>Request Information:</h3>
         <p><strong>URL:</strong> @Request.Url</p>
         <p><strong>Host:</strong> @Request.Url.Host</p>
-        <p><strong>Subdomain Query:</strong> @Request.QueryString["subdomain"]</p>
+        <p><strong>Subdomain Query:</strong> @Html.Encode(Request.QueryString["subdomain"])</p>
     </div>
 
     <div class="debug">

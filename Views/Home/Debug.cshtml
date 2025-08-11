@@ -8,13 +8,16 @@
     <p><strong>Debug Info:</strong> @ViewBag.DebugInfo</p>
     <p><strong>Request URL:</strong> @Request.Url</p>
     <p><strong>Host:</strong> @Request.Url.Host</p>
-    <p><strong>Query String:</strong> @Request.QueryString</p>
+    <p><strong>Query String:</strong> @Html.Encode(Request.QueryString.ToString())</p>
 </div>
 
 <h3>Available Kindergartens:</h3>
 @{
-    var context = new KindergartenSystem.Data.KindergartenContext();
-    var kindergartens = context.Kindergartens.ToList();
+    List<KindergartenSystem.Models.Kindergarten> kindergartens;
+    using (var context = new KindergartenSystem.Data.KindergartenContext())
+    {
+        kindergartens = context.Kindergartens.ToList();
+    }
 }
 
 @if (kindergartens.Any())

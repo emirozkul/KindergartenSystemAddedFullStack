@@ -10,21 +10,17 @@ namespace KindergartenSystem.Data
     {
         protected override void Seed(KindergartenContext context)
         {
-            System.Diagnostics.Debug.WriteLine("=== DatabaseInitializer.Seed() started - checking existing data ===");
             
             // Check if data already exists
             if (context.Users.Any() || context.Kindergartens.Any())
             {
-                System.Diagnostics.Debug.WriteLine("Database already has data, skipping seed");
                 return;
             }
             
-            System.Diagnostics.Debug.WriteLine("Database is empty, seeding initial data...");
             
             // First, create SuperAdmin user without any kindergarten dependency
             var authService = new AuthenticationService(context);
             
-            System.Diagnostics.Debug.WriteLine("Step 1: Creating SuperAdmin with KindergartenId = null");
             var superAdmin = new User
             {
                 KindergartenId = null, // SuperAdmin is not tied to any specific kindergarten
@@ -36,32 +32,24 @@ namespace KindergartenSystem.Data
                 CreatedDate = DateTime.Now
             };
             
-            System.Diagnostics.Debug.WriteLine($"SuperAdmin object created - KindergartenId: {superAdmin.KindergartenId}");
             context.Users.Add(superAdmin);
-            System.Diagnostics.Debug.WriteLine("SuperAdmin added to context");
             
             try
             {
-                System.Diagnostics.Debug.WriteLine("Step 2: Attempting to save SuperAdmin to database...");
                 context.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("✅ SuperAdmin saved successfully!");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"❌ Error saving SuperAdmin: {ex.Message}");
                 if (ex.InnerException != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"❌ Inner exception: {ex.InnerException.Message}");
                     if (ex.InnerException.InnerException != null)
                     {
-                        System.Diagnostics.Debug.WriteLine($"❌ Inner-inner exception: {ex.InnerException.InnerException.Message}");
                     }
                 }
                 throw;
             }
             
             // Now create sample kindergartens
-            System.Diagnostics.Debug.WriteLine("Step 3: Creating sample kindergartens");
             var kindergarten1 = new Kindergarten
             {
                 Name = "Mutlu Çocuklar Kreşi",
@@ -83,10 +71,8 @@ namespace KindergartenSystem.Data
             context.Kindergartens.Add(kindergarten2);
             context.SaveChanges();
             
-            System.Diagnostics.Debug.WriteLine($"✅ Created kindergartens: {kindergarten1.Name}, {kindergarten2.Name}");
 
             // Create one test KreşAdmin for first kindergarten
-            System.Diagnostics.Debug.WriteLine("Step 4: Creating test KreşAdmin");
             var kresAdmin1 = new User
             {
                 KindergartenId = kindergarten1.Id,
@@ -99,10 +85,8 @@ namespace KindergartenSystem.Data
             };
             context.Users.Add(kresAdmin1);
             context.SaveChanges();
-            System.Diagnostics.Debug.WriteLine("✅ KreşAdmin created successfully");
 
             // Create basic settings for first kindergarten
-            System.Diagnostics.Debug.WriteLine("Step 5: Creating basic settings");
             var settings1 = new GeneralSettings
             {
                 KindergartenId = kindergarten1.Id,
@@ -129,7 +113,6 @@ namespace KindergartenSystem.Data
             context.MissionVisions.Add(missionVision1);
             context.SaveChanges();
 
-            System.Diagnostics.Debug.WriteLine("=== Database initialization completed successfully! ===");
             base.Seed(context);
         }
     }

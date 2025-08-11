@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,19 @@ namespace KindergartenSystem.Services
         {
             if (file == null || file.ContentLength == 0)
                 return null;
+                
+            // Security validations
+            if (!IsValidImageFile(file))
+                throw new ArgumentException("Invalid or unsafe file type");
+                
+            if (file.ContentLength > 5 * 1024 * 1024) // 5MB limit
+                throw new ArgumentException("File size exceeds maximum allowed size");
+                
+            // Sanitize inputs to prevent path traversal
+            kindergartenId = Math.Abs(kindergartenId);
+            folder = SanitizeFolder(folder);
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var fileName = Guid.NewGuid().ToString() + GetSafeExtension(file.FileName);
             var uploadDir = HttpContext.Current.Server.MapPath($"~/Content/uploads/{kindergartenId}/{folder}/");
             
             if (!Directory.Exists(uploadDir))
@@ -49,8 +61,19 @@ namespace KindergartenSystem.Services
         {
             if (file == null || file.ContentLength == 0)
                 return null;
+                
+            // Security validations (same as SaveImage)
+            if (!IsValidImageFile(file))
+                throw new ArgumentException("Invalid or unsafe file type");
+                
+            if (file.ContentLength > 2 * 1024 * 1024) // 2MB limit for icons
+                throw new ArgumentException("File size exceeds maximum allowed size");
+                
+            // Sanitize inputs to prevent path traversal
+            kindergartenId = Math.Abs(kindergartenId);
+            folder = SanitizeFolder(folder);
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var fileName = Guid.NewGuid().ToString() + GetSafeExtension(file.FileName);
             var uploadDir = HttpContext.Current.Server.MapPath($"~/Content/uploads/{kindergartenId}/{folder}/");
             
             if (!Directory.Exists(uploadDir))
@@ -147,9 +170,61 @@ namespace KindergartenSystem.Services
                     return ImageFormat.Jpeg;
             }
         }
+        
+        private bool IsValidImageFile(HttpPostedFileBase file)
+        {
+            // Check file extension
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            
+            if (!allowedExtensions.Contains(extension))
+                return false;
+                
+            // Check MIME type
+            var allowedMimeTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/bmp" };
+            if (!allowedMimeTypes.Contains(file.ContentType.ToLower()))
+                return false;
+                
+            // Validate actual file content by trying to create image
+            try
+            {
+                using (var image = Image.FromStream(file.InputStream))
+                {
+                    // Reset stream position for later use
+                    file.InputStream.Position = 0;
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        
+        private string SanitizeFolder(string folder)
+        {
+            if (string.IsNullOrWhiteSpace(folder))
+                return "general";
+                
+            // Remove dangerous characters and path traversal attempts
+            var sanitized = folder.Replace("..", "").Replace("/", "").Replace("\\", "");
+            
+            // Only allow alphanumeric and some safe characters
+            var allowed = System.Text.RegularExpressions.Regex.Replace(sanitized, @"[^a-zA-Z0-9_-]", "");
+            
+            return string.IsNullOrWhiteSpace(allowed) ? "general" : allowed;
+        }
+        
+        private string GetSafeExtension(string fileName)
+        {
+            var extension = Path.GetExtension(fileName).ToLower();
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+            
+            return allowedExtensions.Contains(extension) ? extension : ".jpg";
+        }
     }
 
-    public interface IWhatsAppService
+    public interface IWhatsAppService : IDisposable
     {
         Task<bool> SendContactFormNotificationAsync(ContactSubmission submission, string kindergartenPhone);
         Task<bool> SendAnnouncementNotificationAsync(string title, string content, string kindergartenPhone);
@@ -182,10 +257,9 @@ namespace KindergartenSystem.Services
 
                 return await SendWhatsAppMessage(kindergartenPhone, message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log error
-                System.Diagnostics.Debug.WriteLine($"WhatsApp send error: {ex.Message}");
                 return false;
             }
         }
@@ -201,9 +275,8 @@ namespace KindergartenSystem.Services
 
                 return await SendWhatsAppMessage(kindergartenPhone, message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"WhatsApp send error: {ex.Message}");
                 return false;
             }
         }
@@ -217,7 +290,6 @@ namespace KindergartenSystem.Services
                 var whatsappUrl = $"https://wa.me/{phoneNumber.Replace("+", "").Replace(" ", "")}?text={encodedMessage}";
 
                 // Log the URL for manual sending or auto-open
-                System.Diagnostics.Debug.WriteLine($"WhatsApp URL: {whatsappUrl}");
                 return true;
             }
 

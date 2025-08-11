@@ -36,7 +36,10 @@
       "Bash(sqllocaldb stop:*)",
       "Bash(\"/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" stop MSSQLLocalDB)",
       "Bash(\"/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" info)",
-      "Bash(\"/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" delete MSSQLLocalDB)"
+      "Bash(\"/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/SqlLocalDB.exe\" delete MSSQLLocalDB)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.csproj)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /t:restore)",
+      "Bash(\"/mnt/c/Program Files/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" KindergartenSystem.sln /p:Configuration=Debug /p:RestorePackages=true)"
     ],
     "deny": []
   }

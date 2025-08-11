@@ -1,17 +1,15 @@
 <%@ Application Language="C#" %>
+<%@ Import Namespace="KindergartenSystem" %>
 
 <script runat="server">
     void Application_Start(object sender, EventArgs e)
     {
         try
         {
+            // Register areas, routes, and filters in proper order
             System.Web.Mvc.AreaRegistration.RegisterAllAreas();
-            System.Web.Routing.RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            System.Web.Routing.RouteTable.Routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = System.Web.Mvc.UrlParameter.Optional }
-            );
+            FilterConfig.RegisterGlobalFilters(System.Web.Mvc.GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(System.Web.Routing.RouteTable.Routes);
             
             // Initialize database
             System.Data.Entity.Database.SetInitializer(new KindergartenSystem.Data.DatabaseInitializer());
@@ -24,7 +22,8 @@
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine("Error during Application_Start: " + ex.Message);
+            // Log to event log or proper logging framework in production
+            throw;
         }
     }
 </script>

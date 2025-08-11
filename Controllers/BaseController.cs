@@ -9,13 +9,22 @@ namespace KindergartenSystem.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected KindergartenContext Context { get; private set; }
+        private KindergartenContext _context;
+        protected KindergartenContext Context 
+        { 
+            get 
+            { 
+                if (_context == null)
+                    _context = new KindergartenContext();
+                return _context;
+            } 
+        }
         protected KindergartenPrincipal CurrentUser { get; private set; }
         protected Kindergarten CurrentKindergarten { get; private set; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Context = new KindergartenContext();
+            // Context is now lazy-initialized through property
 
             if (User.Identity.IsAuthenticated)
             {
@@ -32,7 +41,6 @@ namespace KindergartenSystem.Controllers
                     {
                         // SuperAdmin doesn't have a specific kindergarten - set to first one for display purposes
                         CurrentKindergarten = Context.Kindergartens.FirstOrDefault(k => k.IsActive);
-                        System.Diagnostics.Debug.WriteLine($"SuperAdmin logged in - using default kindergarten: {CurrentKindergarten?.Name}");
                     }
 
                     ViewBag.CurrentUser = CurrentUser;
@@ -43,24 +51,20 @@ namespace KindergartenSystem.Controllers
             {
                 // For public pages, determine kindergarten from subdomain
                 var subdomain = GetSubdomain();
-                System.Diagnostics.Debug.WriteLine($"Subdomain detected: '{subdomain}'");
                 
                 if (!string.IsNullOrEmpty(subdomain))
                 {
                     CurrentKindergarten = Context.Kindergartens
                         .FirstOrDefault(k => k.Subdomain == subdomain && k.IsActive);
                     
-                    System.Diagnostics.Debug.WriteLine($"Kindergarten found: {CurrentKindergarten != null}");
                     if (CurrentKindergarten != null)
                     {
-                        System.Diagnostics.Debug.WriteLine($"Kindergarten name: {CurrentKindergarten.Name}");
                     }
                     
                     ViewBag.CurrentKindergarten = CurrentKindergarten;
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("No subdomain provided");
                 }
             }
 
@@ -69,9 +73,10 @@ namespace KindergartenSystem.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && Context != null)
+            if (disposing && _context != null)
             {
-                Context.Dispose();
+                _context.Dispose();
+                _context = null;
             }
             base.Dispose(disposing);
         }
@@ -133,7 +138,6 @@ namespace KindergartenSystem.Controllers
                 var settings = Context.GeneralSettings
                     .FirstOrDefault(s => s.KindergartenId == CurrentKindergarten.Id);
                 ViewBag.Settings = settings;
-                System.Diagnostics.Debug.WriteLine($"Loaded settings for kindergarten: {CurrentKindergarten.Name}");
             }
             else
             {
@@ -157,14 +161,12 @@ namespace KindergartenSystem.Controllers
                         if (firstKindergarten != null)
                         {
                             var redirectUrl = $"{Request.Url.Scheme}://{Request.Url.Authority}{Request.Url.AbsolutePath}?subdomain={firstKindergarten.Subdomain}";
-                            System.Diagnostics.Debug.WriteLine($"Redirecting to: {redirectUrl}");
                             filterContext.Result = new RedirectResult(redirectUrl);
                             return;
                         }
                     }
                 }
                 
-                System.Diagnostics.Debug.WriteLine(errorMessage);
                 
                 // Show custom error page instead of generic 404
                 filterContext.Result = new HttpNotFoundResult(errorMessage);

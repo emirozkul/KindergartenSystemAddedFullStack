@@ -100,7 +100,6 @@ namespace KindergartenSystem.Auth
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"ValidateUser called: email={email}, kindergartenId={kindergartenId}");
                 
                 var query = _context.Users.AsQueryable();
 
@@ -111,7 +110,6 @@ namespace KindergartenSystem.Auth
                     var superAdmin = query.FirstOrDefault(u => u.Email == email && u.Role == "SuperAdmin" && u.IsActive);
                     if (superAdmin != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("SuperAdmin user found by email.");
                         if (VerifyPassword(password, superAdmin.PasswordHash))
                         {
                             return superAdmin;
@@ -124,13 +122,10 @@ namespace KindergartenSystem.Auth
                     .Include("Kindergarten")
                     .FirstOrDefault(u => u.Email == email && u.KindergartenId == kindergartenId && u.IsActive);
 
-                System.Diagnostics.Debug.WriteLine($"User found: {user != null}");
                 if (user != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"User details: Email={user.Email}, Role={user.Role}, KindergartenId={user.KindergartenId}, Active={user.IsActive}");
                     
                     var passwordValid = VerifyPassword(password, user.PasswordHash);
-                    System.Diagnostics.Debug.WriteLine($"Password valid: {passwordValid}");
                     
                     if (passwordValid)
                     {
@@ -139,22 +134,18 @@ namespace KindergartenSystem.Auth
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("No user found matching criteria");
                     
                     // Debug: Show all SuperAdmin users in database
                     var allSuperAdmins = _context.Users.Where(u => u.Role == "SuperAdmin").ToList();
-                    System.Diagnostics.Debug.WriteLine($"All SuperAdmin users in database: {allSuperAdmins.Count}");
                     foreach (var sa in allSuperAdmins)
                     {
-                        System.Diagnostics.Debug.WriteLine($"  - Email: {sa.Email}, KindergartenId: {sa.KindergartenId}, Active: {sa.IsActive}");
                     }
                 }
 
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"ValidateUser error: {ex.Message}");
                 return null;
             }
         }
@@ -202,17 +193,56 @@ namespace KindergartenSystem.Auth
 
         public string HashPassword(string password)
         {
-            using (var sha256 = SHA256.Create())
+            // Generate a random salt for each password
+            byte[] salt = new byte[16];
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
             {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password + "K1nd3rg@rt3n"));
-                return Convert.ToBase64String(hashedBytes);
+                rng.GetBytes(salt);
+            }
+
+            // Use PBKDF2 (RFC 2898) for secure password hashing
+            using (var pbkdf2 = new System.Security.Cryptography.Rfc2898DeriveBytes(password, salt, 100000))
+            {
+                byte[] hash = pbkdf2.GetBytes(32);
+                
+                // Combine salt and hash
+                byte[] hashBytes = new byte[48];
+                Array.Copy(salt, 0, hashBytes, 0, 16);
+                Array.Copy(hash, 0, hashBytes, 16, 32);
+                
+                return Convert.ToBase64String(hashBytes);
             }
         }
 
         public bool VerifyPassword(string password, string hashedPassword)
         {
-            var hashOfInput = HashPassword(password);
-            return hashOfInput == hashedPassword;
+            try
+            {
+                // Extract the bytes
+                byte[] hashBytes = Convert.FromBase64String(hashedPassword);
+                
+                // Get the salt
+                byte[] salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+                
+                // Compute the hash on the password the user entered
+                using (var pbkdf2 = new System.Security.Cryptography.Rfc2898DeriveBytes(password, salt, 100000))
+                {
+                    byte[] hash = pbkdf2.GetBytes(32);
+                    
+                    // Compare the results
+                    for (int i = 0; i < 32; i++)
+                    {
+                        if (hashBytes[i + 16] != hash[i])
+                            return false;
+                    }
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

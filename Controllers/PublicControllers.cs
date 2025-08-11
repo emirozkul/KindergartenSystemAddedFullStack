@@ -241,20 +241,23 @@ namespace KindergartenSystem.Controllers
 
                 if (settings != null)
                 {
-                    // Send email notification to the new address
-                    await SendEmailNotificationAsync(submission, "heroner2000@gmail.com");
-
-                    // Send email notification to the admin's configured email
+                    // Send email notification to the admin's configured email only
                     if (!string.IsNullOrEmpty(settings.Email))
                     {
                         await SendEmailNotificationAsync(submission, settings.Email);
                     }
+                    
+                    // Optional: Send to system notification email if configured
+                    var systemEmail = System.Configuration.ConfigurationManager.AppSettings["SystemNotificationEmail"];
+                    if (!string.IsNullOrEmpty(systemEmail) && systemEmail != settings.Email)
+                    {
+                        await SendEmailNotificationAsync(submission, systemEmail);
+                    }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log error but don't fail the submission
-                System.Diagnostics.Debug.WriteLine($"Failed to send notifications: {ex.Message}");
             }
         }
 
@@ -293,9 +296,8 @@ namespace KindergartenSystem.Controllers
                     await client.SendMailAsync(mailMessage);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"Email send failed: {ex.Message}");
             }
         }
 
@@ -427,50 +429,34 @@ namespace KindergartenSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SuperAdminLogin(LoginViewModel model, string returnUrl)
         {
-            System.Diagnostics.Debug.WriteLine($"=== SuperAdmin Login Attempt ===");
-            System.Diagnostics.Debug.WriteLine($"Email: {model.Email}");
-            System.Diagnostics.Debug.WriteLine($"Password Length: {model.Password?.Length}");
-            System.Diagnostics.Debug.WriteLine($"ModelState.IsValid: {ModelState.IsValid}");
             
             if (ModelState.IsValid)
             {
                 // For SuperAdmin, we don't need kindergarten validation - use null
                 var user = _authService.ValidateUser(model.Email, model.Password, null);
                 
-                System.Diagnostics.Debug.WriteLine($"User found: {user != null}");
                 if (user != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"User role: {user.Role}");
-                    System.Diagnostics.Debug.WriteLine($"User email: {user.Email}");
-                    System.Diagnostics.Debug.WriteLine($"User active: {user.IsActive}");
-                    System.Diagnostics.Debug.WriteLine($"User kindergartenId: {user.KindergartenId}");
                 }
 
                 if (user != null && user.Role == "SuperAdmin")
                 {
-                    System.Diagnostics.Debug.WriteLine("SuperAdmin authentication successful, signing in...");
                     _authService.SignIn(user, model.RememberMe);
-                    System.Diagnostics.Debug.WriteLine("SignIn completed, redirecting...");
 
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        System.Diagnostics.Debug.WriteLine($"Redirecting to return URL: {returnUrl}");
                         return Redirect(returnUrl);
                     }
 
-                    System.Diagnostics.Debug.WriteLine("Redirecting to SuperAdmin Index");
                     return RedirectToAction("Index", "SuperAdmin");
                 }
 
-                System.Diagnostics.Debug.WriteLine("Authentication failed - adding model error");
                 ModelState.AddModelError("", "Geçersiz süper admin kimlik bilgileri.");
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("ModelState is not valid:");
                 foreach (var error in ModelState)
                 {
-                    System.Diagnostics.Debug.WriteLine($"  {error.Key}: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
                 }
             }
 
